@@ -40,29 +40,29 @@ void BinaryTree<T>::insertNode(T value) {
 
 template<typename T>
 void BinaryTree<T>::deleteNode(T value) {
-    root = deleteRecursive(root, value);
+    root = _deleteRecursive(root, value);
 }
 
 template<typename T>
 bool BinaryTree<T>::search(T value) {
-    return searchRecursive(root, value);
+    return _searchRecursive(root, value);
 }
 
 template<typename T>
 void BinaryTree<T>::inorder() {
-    inorderRecursive(root);
+    _inorderRecursive(root);
     std::cout << std::endl;
 }
 
 template<typename T>
 void BinaryTree<T>::preorder() {
-    preorderRecursive(root);
+    _preorderRecursive(root);
     std::cout << std::endl;
 }
 
 template<typename T>
 void BinaryTree<T>::postorder() {
-    postorderRecursive(root);
+    _postorderRecursive(root);
     std::cout << std::endl;
 }
 
