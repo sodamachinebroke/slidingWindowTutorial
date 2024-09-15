@@ -33,6 +33,11 @@ public:
 
     void levelOrder();
 
+    void saveTreeToFile(const std::string &filename);
+
+    void loadTreeFromFile(const std::string &filename);
+
+
 private:
     Node<T> *root;
 
@@ -98,6 +103,28 @@ private:
             _postorderRecursive(node->right);
             std::cout << node->data << " ";
         }
+    }
+
+    void _serialize(Node<T> *node, std::ofstream &outFile) {
+        if (!node) {
+            int marker = -1;
+            outFile.write(reinterpret_cast<char *>(&marker), sizeof(int));
+            return;
+        }
+        outFile.write(reinterpret_cast<char *> (&node->data), sizeof(T));
+        _serialize(node->left, outFile);
+        _serialize(node->right, outFile);
+    }
+
+    Node<T> *_deserialize(std::ifstream &inFile) {
+        T value;
+        if (!inFile.read(reinterpret_cast<char *>(&value), sizeof(T)) || value == -1) {
+            return nullptr;
+        }
+        auto *node = new Node<T>(value);
+        node->left = _deserialize(inFile);
+        node->right = _deserialize(inFile);
+        return node;
     }
 };
 
