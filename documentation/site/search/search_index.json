@@ -1,0 +1,58 @@
+{
+  "config": {
+    "lang": [
+      "en"
+    ],
+    "separator": "[\\s\\-]+",
+    "pipeline": [
+      "stopWordFilter"
+    ]
+  },
+  "docs": [
+    {
+      "location": "",
+      "title": "Goal of this documentation",
+      "text": "<p>I am learning how to document my progression with my own compression algorithm design.</p>"
+    },
+    {
+      "location": "#key-functions",
+      "title": "Key functions:",
+      "text": "<ul> <li>Split</li> </ul> <pre><code>size_t split(const std::string &amp;txt, std::vector&lt;std::string&gt; &amp;strs, char ch);\n</code></pre> <ul> <li>[]</li> </ul>"
+    },
+    {
+      "location": "commons/",
+      "title": "Commons",
+      "text": "Header <pre><code>#include &lt;vector&gt;\n#include &lt;string&gt;\n\n#ifndef COMMONS_H\n#define COMMONS_H\n\n\nclass Commons {\npublic:\n\n    static size_t split(const std::string &amp;txt, std::vector&lt;std::string&gt; &amp;strs, char ch);\n};\n\n#endif //COMMONS_H\n</code></pre> Source file <pre><code>#include \"header/commons.h\"\n\n#include &lt;string&gt;\n#include &lt;vector&gt;\n\nsize_t Commons::split(const std::string &amp;txt, std::vector&lt;std::string&gt; &amp;strs, char ch) {\n\n    size_t pos = txt.find(ch);\n    size_t initialPos = 0;\n    strs.clear();\n\n    while (pos != std::string::npos) {\n        strs.push_back(txt.substr(initialPos, pos - initialPos));\n        initialPos = pos + 1;\n\n        pos = txt.find(ch, initialPos);\n    }\n\n    strs.push_back(txt.substr(initialPos, std::min(pos, txt.size()) - initialPos + 1));\n\n    return strs.size();\n\n}\n</code></pre>"
+    },
+    {
+      "location": "commons/#split",
+      "title": "Split",
+      "text": "Full source code <pre><code>size_t Commons::split(const std::string &amp;txt, std::vector&lt;std::string&gt; &amp;strs, char ch) {\n\n    size_t pos = txt.find(ch);\n    size_t initialPos = 0;\n    strs.clear();\n\n    while (pos != std::string::npos) {\n        strs.push_back(txt.substr(initialPos, pos - initialPos));\n        initialPos = pos + 1;\n\n        pos = txt.find(ch, initialPos);\n    }\n\n    strs.push_back(txt.substr(initialPos, std::min(pos, txt.size()) - initialPos + 1));\n\n    return strs.size();\n\n}\n</code></pre> <p>This function splits a full string into a vector, so it's easier to detect duplicates. It also doesn't really work with end of sentence marks, but that's not really too important. The important part is to split the string somehow.</p>"
+    },
+    {
+      "location": "commons/#3-inputs",
+      "title": "3 inputs:",
+      "text": "<ul> <li><code>const std::string &amp;txt</code><ul> <li>Input text</li> </ul> </li> <li><code>std::vector&lt;std::string&gt; &amp;strs</code><ul> <li>Output vector</li> </ul> </li> <li><code>char ch</code><ul> <li>Delimiter</li> </ul> </li> <li>Return value is size_t, which means it returns the length of the output vector</li> </ul>"
+    },
+    {
+      "location": "commons/#initializing-values",
+      "title": "Initializing values",
+      "text": "<pre><code>size_t pos = txt.find(ch);\nsize_t initialPos = 0;\nstrs.clear();\n</code></pre>"
+    },
+    {
+      "location": "commons/#everything-after-this-is-bullshit",
+      "title": "Everything after this is bullshit",
+      "text": ""
+    },
+    {
+      "location": "commons/#copying-everything-to-the-vector",
+      "title": "Copying everything to the vector",
+      "text": "<pre><code>while (pos != std::string::npos) {\n        strs.push_back(txt.substr(initialPos, pos - initialPos));\n        initialPos = pos + 1;\n\n        pos = txt.find(ch, initialPos);\n    }\n</code></pre> <p>It runs until the end of the string (<code>std::string::npos</code>) and it adds the substring to the end of the output vector. Then moves \"initialPos\" to after \"pos\". Then sets \"pos\" to find the next delimiter from \"initialPos\".</p>"
+    },
+    {
+      "location": "commons/#finding-duplicates",
+      "title": "Finding duplicates",
+      "text": "<pre><code>strs.push_back(txt.substr(initialPos, std::min(pos, txt.size()) - initialPos + 1));\n</code></pre>"
+    }
+  ]
+}
