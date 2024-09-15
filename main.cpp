@@ -30,7 +30,18 @@ int main() {
 
     inputFile.close();
 
-    std::cout << "Inorder traversal: ";
+    std::cout << "Preorder traversal: ";
+    tree.preorder();
+
+    tree.saveTreeToFile("output.dat");
+
+    BinaryTree<int> newTree;
+    newTree.loadTreeFromFile("output.dat");
+
+    std::cout << "Preorder traversal: ";
+    newTree.preorder();
+
+    /*std::cout << "Inorder traversal: ";
     tree.inorder();
 
     std::cout << "Preorder traversal: ";
@@ -47,7 +58,7 @@ int main() {
 
     tree.deleteNode(3);
     std::cout << "Inorder traversal after removing 3: ";
-    tree.inorder();
+    tree.inorder();*/
 
     return 0;
 }
