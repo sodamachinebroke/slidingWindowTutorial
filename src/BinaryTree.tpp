@@ -85,4 +85,26 @@ void BinaryTree<T>::levelOrder() {
     std::cout << std::endl;
 }
 
-// Remaining private methods go here (deleteRecursive, findMin, etc.)
+template<typename T>
+void BinaryTree<T>::saveTreeToFile(const std::string &filename) {
+    std::ofstream outFile(filename, std::ios::binary);
+    if (!outFile) {
+        std::cerr << "Error opening file for writing." << std::endl;
+        return;
+    }
+    _serialize(root, outFile);
+    outFile.close();
+    std::cout << "Tree saved to " << filename << std::endl;
+}
+
+template<typename T>
+void BinaryTree<T>::loadTreeFromFile(const std::string &filename) {
+    std::ifstream inFile(filename, std::ios::binary);
+    if (!inFile) {
+        std::cerr << "Error opening file for reading" << std::endl;
+        return;
+    }
+    root = _deserialize(inFile);
+    inFile.close();
+    std::cout << "Tree loaded from " << filename << std::endl;
+}
