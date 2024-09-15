@@ -17,7 +17,7 @@ int main() {
 
     BinaryTree<int> tree;
 
-    std::ifstream inputFile("input.dat", std::ios::binary);
+    std::ifstream inputFile("../public/input.dat", std::ios::binary);
     if (!inputFile) {
         std::cerr << "Error opening file!" << std::endl;
         return 1;
@@ -33,10 +33,10 @@ int main() {
     std::cout << "Preorder traversal: ";
     tree.preorder();
 
-    tree.saveTreeToFile("output.dat");
+    tree.saveTreeToFile("../public/output.dat");
 
     BinaryTree<int> newTree;
-    newTree.loadTreeFromFile("output.dat");
+    newTree.loadTreeFromFile("../public/output.dat");
 
     std::cout << "Preorder traversal: ";
     newTree.preorder();
