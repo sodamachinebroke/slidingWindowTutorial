@@ -24,6 +24,7 @@ public:
 
 <details>
 <summary style="user-select: none; cursor: pointer">Source file</summary>
+
 ```c++
 #include "header/commons.h"
 
@@ -50,13 +51,15 @@ size_t Commons::split(const std::string &txt, std::vector<std::string> &strs, ch
 }
 
 ```
+
 </details>
 
 ## Split
 
 <a name="split"></a>
+
 <details>
-<summary>Full source code</summary>
+<summary style="cursor: pointer; user-select: none;">Full source code</summary>
 
 ```c++
 size_t Commons::split(const std::string &txt, std::vector<std::string> &strs, char ch) {
@@ -86,13 +89,10 @@ end of sentence marks, but that's not really too important. The important part i
 
 ### 3 inputs:
 
-- ```const std::string &txt```
-    - Input text
-- ```std::vector<std::string> &strs```
-    - Output vector
-- ```char ch```
-    - Delimiter
-- Return value is size_t, which means it returns the length of the output vector
+- `const std::string &txt` - Input text
+- `std::vector<std::string> &strs` - Output vector
+- `char ch` - Delimiter
+- Return value is `size_t`, which means it returns the length of the output vector
 
 ### Initializing values
 
@@ -115,7 +115,7 @@ while (pos != std::string::npos) {
     }
 ```
 
-It runs until the end of the string (```std::string::npos```) and it adds the substring to the end of the output vector.
+It runs until the end of the string (`std::string::npos`) and it adds the substring to the end of the output vector.
 Then moves "initialPos" to after "pos". Then sets "pos" to find the next delimiter from "initialPos".
 
 ### Finding duplicates
@@ -125,6 +125,3 @@ Then moves "initialPos" to after "pos". Then sets "pos" to find the next delimit
 strs.push_back(txt.substr(initialPos, std::min(pos, txt.size()) - initialPos + 1));
 
 ```
-
-
-
