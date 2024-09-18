@@ -45,7 +45,7 @@ private:
 
     Node *_deleteRecursive(Node *current, unsigned char value);
 
-    Node *_findMin(Node *node);
+    static Node *_findMin(Node *node);
 
     bool _searchRecursive(Node *current, unsigned char value);
 
