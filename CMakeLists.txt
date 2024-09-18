@@ -1,14 +1,17 @@
 cmake_minimum_required(VERSION 3.28)
 project(slidingWindowTutorial)
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 26)
 
 add_executable(slidingWindowTutorial main.cpp
-        src/commons.cpp
-        src/header/commons.h
+        src/Commons.cpp
+        src/Commons.h
         src/hashMap.cpp
-        src/header/hashMap.h
-        src/header/BinaryTree.h
-        src/BinaryTree.tpp
-        src/BinaryTree.tpp
+        src/HashMap.h
+        src/BinaryTree.h
+        src/BitReader.cpp
+        src/BitReader.h
+        src/BinaryTree.cpp
+        src/BitWriter.cpp
+        src/BitWriter.h
 )
