@@ -4,11 +4,11 @@
 
 #include <vector>
 #include <unordered_map>
-#include "header/hashMap.h"
-#include "header/commons.h"
+#include "HashMap.h"
+#include "Commons.h"
 
 
-std::vector<WordInfo> hashMap::compressHashMap(const std::basic_string<char> &INPUT) {
+std::vector<WordInfo> HashMap::compressHashMap(const std::basic_string<char> &INPUT) {
     std::vector<std::basic_string<char> > raw_data;
 
     Commons::split(INPUT, raw_data, ' ');
