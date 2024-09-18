@@ -166,7 +166,7 @@ Node *BinaryTree::_deserialize(BitReader &bitReader) {
     return node;
 }
 
-void BinaryTree::saveTreeToFile(const std::string &filename) {
+void BinaryTree::saveTreeToFile(const std::string &filename) { //TODO fix
     BitWriter bitWriter(filename);
 
     _serialize(root, bitWriter);
@@ -174,7 +174,7 @@ void BinaryTree::saveTreeToFile(const std::string &filename) {
 }
 
 
-void BinaryTree::loadTreeFromFile(const std::string &filename) {
+void BinaryTree::loadTreeFromFile(const std::string &filename) { //TODO fix
     BitReader bitReader(filename);
 
     root = _deserialize(bitReader);
