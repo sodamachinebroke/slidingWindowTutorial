@@ -12,7 +12,7 @@ struct WordInfo { // this can definitely be done without this
     int distance;
 };
 
-class hashMap {
+class HashMap {
 public:
     static std::vector<WordInfo> compressHashMap(const std::basic_string<char> &INPUT);
 };
