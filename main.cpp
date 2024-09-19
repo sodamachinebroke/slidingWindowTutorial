@@ -1,13 +1,27 @@
 #include <iostream>
 #include <fstream>
+#include <unordered_map>
 
 #include "src/BinaryTree.h"
 #include "src/BitReader.h"
+#include "src/HuffmanTree.h"
 
+
+std::unordered_map<unsigned char, int> buildFrequencyTable(const std::string &inputFilename) {
+    std::ifstream inFile(inputFilename, std::ios::binary);
+    std::unordered_map<unsigned char, int> frequencies;
+    unsigned char byte;
+
+    while (inFile.read(reinterpret_cast<char *>(&byte), sizeof(byte))) {
+        frequencies[byte]++;
+    }
+
+    return frequencies;
+}
 
 int main() {
 
-    std::string INPUT = "on a rainy day the rain falls softly the rain falls softly and the world is wet the wet world reflects the rain the rain falls softly softly on the wet ground the ground is wet because the rain falls softly the rain falls gently gently on the wet streets the streets are wet and the rain continues the rain continues softly softly and gently gently the rain falls falls softly on the trees the trees are wet from the rain the rain falls softly and gently softly and gently the rain continues to fall the world is wet and the rain is gentle the rain falls gently softly and the wet world reflects the gentle rain";
+    //std::string INPUT = "on a rainy day the rain falls softly the rain falls softly and the world is wet the wet world reflects the rain the rain falls softly softly on the wet ground the ground is wet because the rain falls softly the rain falls gently gently on the wet streets the streets are wet and the rain continues the rain continues softly softly and gently gently the rain falls falls softly on the trees the trees are wet from the rain the rain falls softly and gently softly and gently the rain continues to fall the world is wet and the rain is gentle the rain falls gently softly and the wet world reflects the gentle rain";
     /*std::vector<WordInfo> encodedData = HashMap::compressHashMap(INPUT);
 
 
@@ -16,9 +30,9 @@ int main() {
         std::cout << entry.code << ":" << entry.distance << "%";
     }*/
 
-    BinaryTree tree;
+    //BinaryTree tree;
 
-    std::ifstream inputFile("../public/input.dat", std::ios::binary);
+    /*std::ifstream inputFile("../public/input.dat", std::ios::binary);
     if (!inputFile) {
         std::cerr << "Error opening file!" << std::endl;
         return 1;
@@ -30,46 +44,28 @@ int main() {
     }
 
     try {
-        BitReader reader("../public/input.bin");
+        BitReader reader("../public/input3.bin");
 
         while (reader.hasMoreBits()) {
-            uint32_t byte = reader.readBits(8);
+            unsigned char byte = reader.readBits(8);
             auto ucharValue = static_cast<unsigned char>(byte);
+            std::cout << static_cast<unsigned char>(byte) << std::endl;
             tree.insertNode(ucharValue);
         }
     } catch (const std::exception &e) {
         std::cerr << e.what() << std::endl;
     }
 
-    inputFile.close();
-
     std::cout << "Postorder traversal: ";
     tree.postorder();
 
-    tree.saveTreeToFile("../public/output.bin");
+    tree.saveTreeToFile("../public/output3.bin");*/
 
-    BinaryTree newTree;
-    try {
-        BitReader reader("../public/output.bin");
+    /* BinaryTree newTree;
+     newTree.loadTreeFromFile("../public/output3.bin");
 
-        while (reader.hasMoreBits()) {
-            uint32_t byte = reader.readBits(8);
-            auto ucharValue = static_cast<unsigned char>(byte);
-            newTree.insertNode(ucharValue);
-        }
-    } catch (const std::exception &e) {
-        std::cerr << e.what() << std::endl;
-    }
-
-    std::cout << "Postorder traversal: ";
-    newTree.postorder();
-
-
-    /*BinaryTree newTree;
-    newTree.loadTreeFromFile("../public/output.bin");
-
-    std::cout << "Postorder traversal: ";
-    tree.postorder();
+     std::cout << "Postorder traversal: ";
+     tree.postorder();*/
 
     /*std::cout << "Inorder traversal: ";
     tree.inorder();
@@ -91,7 +87,19 @@ int main() {
 
     */
 
+    std::string inputFilename = "../public/input4.bin";
+    std::string outputFilename = "../public/output4comp.bin";
 
+    std::unordered_map<unsigned char, int> frequencies = buildFrequencyTable(inputFilename);
+    HuffmanNode *root = HuffmanTree::buildHuffmanTree(frequencies);
 
+    std::unordered_map<unsigned char, std::string> huffmanCodes;
+    HuffmanTree::generateCodes(root, "", huffmanCodes);
+
+    HuffmanTree::saveCompressedFile(inputFilename, outputFilename, root, huffmanCodes);
+
+    delete root;
+
+    std::cout << "File compressed successfully!" << std::endl;
     return 0;
 }
