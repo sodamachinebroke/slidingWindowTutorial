@@ -2,7 +2,9 @@
 
 #include <string>
 #include <vector>
-
+#include <unordered_map>
+#include <iostream>
+#include <fstream>
 
 size_t Commons::split(const std::string &txt, std::vector<std::string> &strs, char ch) {
 
@@ -21,5 +23,17 @@ size_t Commons::split(const std::string &txt, std::vector<std::string> &strs, ch
 
     return strs.size();
 
+}
+
+std::unordered_map<unsigned char, int> Commons::calculateFrequencies(const std::string &filename) {
+    std::ifstream file(filename, std::ios::binary);
+    std::unordered_map<unsigned char, int> frequencies;
+    unsigned char byte;
+
+    while (file.read(reinterpret_cast<char *>(&byte), sizeof(byte))) {
+        frequencies[byte]++;
+    }
+
+    return frequencies;
 }
 
