@@ -14,4 +14,6 @@ add_executable(slidingWindowTutorial main.cpp
         src/BinaryTree.cpp
         src/BitWriter.cpp
         src/BitWriter.h
+        src/HuffmanTree.cpp
+        src/HuffmanTree.h
 )
