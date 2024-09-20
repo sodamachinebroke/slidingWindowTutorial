@@ -3,7 +3,7 @@
 This repository serves as more of a collection of functions and algorithms that show my journey across the compression
 hellscape.
 
-My language of choice is C++14, which should serve plenty well, along with its Inline Assembly feature. I am going to
+My language of choice is C++26, which should serve plenty well, along with its Inline Assembly feature. I am going to
 primarily use the JetBrains CLion IDE and the goal of this is to experiment with different approaches to file
 compression.
 
