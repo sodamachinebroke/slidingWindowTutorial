@@ -19,6 +19,18 @@ std::unordered_map<unsigned char, int> buildFrequencyTable(const std::string &in
     return frequencies;
 }
 
+std::pair<unsigned char, int> findMaxEntry(const std::unordered_map<unsigned char, int> &frequencies) {
+    std::pair<unsigned char, int> maxEntry = std::make_pair(0, 0);
+
+    for (auto frequency : frequencies) {
+        if (frequency.second > maxEntry.second) {
+            maxEntry = std::make_pair(frequency.first, frequency.second);
+        }
+    }
+
+    return maxEntry;
+}
+
 int main() {
 
     //std::string INPUT = "on a rainy day the rain falls softly the rain falls softly and the world is wet the wet world reflects the rain the rain falls softly softly on the wet ground the ground is wet because the rain falls softly the rain falls gently gently on the wet streets the streets are wet and the rain continues the rain continues softly softly and gently gently the rain falls falls softly on the trees the trees are wet from the rain the rain falls softly and gently softly and gently the rain continues to fall the world is wet and the rain is gentle the rain falls gently softly and the wet world reflects the gentle rain";
@@ -87,10 +99,16 @@ int main() {
 
     */
 
-    std::string inputFilename = "../public/input4.bin";
-    std::string outputFilename = "../public/output4comp.bin";
+    std::string inputFilename = "../public/input3.bin";
+    std::string outputFilename = "../public/output3comp.bin";
 
     std::unordered_map<unsigned char, int> frequencies = buildFrequencyTable(inputFilename);
+    for (auto x: frequencies) {
+        std::cout<<x.first<<" -> "<<x.second<<std::endl;
+    }
+
+    std::cout << "Highest frequency key - value: " << findMaxEntry(frequencies).first << " -> " << findMaxEntry(frequencies).second << std::endl;
+
     HuffmanNode *root = HuffmanTree::buildHuffmanTree(frequencies);
 
     std::unordered_map<unsigned char, std::string> huffmanCodes;
