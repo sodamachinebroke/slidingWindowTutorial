@@ -1,3 +1,4 @@
 .idea
 /public/output*
 /cmake-build-debug
+/documentation/site/assets/javascripts/
