@@ -14,3 +14,10 @@ So far I have made a function that uses entropy coding with a dynamic dictionary
 - Binary tree instead of a hashmap for storing the code
 - File handling, byte compression
 - Compression using Inline Assembly, as it provides a much faster run time
+
+I have created a topic. Idk what that's called, help
+You can find it [here](documentation/topic.md)
+
+Also a very basic UML diagram regarding the Huffman tree and binary tree
+
+![UML diagram](documentation/uml1.svg)
