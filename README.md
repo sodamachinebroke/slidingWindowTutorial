@@ -24,3 +24,4 @@ Also a very basic UML diagram regarding the Huffman tree and binary tree
 
 ![UML diagram](documentation/uml1.svg)
 
+Google Benchmarks for microbenchmarking
