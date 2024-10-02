@@ -1,5 +1,7 @@
 # Sliding window tutorial
 
+# [Documentation](https://sodamachinebroke.github.io/slidingWindowTutorial/)
+
 This repository serves as more of a collection of functions and algorithms that show my journey across the compression
 hellscape.
 
@@ -21,3 +23,6 @@ You can find it [here](documentation/topic.md)
 Also a very basic UML diagram regarding the Huffman tree and binary tree
 
 ![UML diagram](documentation/uml1.svg)
+
+Google Benchmarks for microbenchmarking
+
