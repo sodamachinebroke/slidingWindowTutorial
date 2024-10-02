@@ -6,27 +6,19 @@
 #include <fstream>
 #include "BitWriter.h"
 #include "BitReader.h"
+#include "Node.h"
 
-// Node structure for the binary tree
-class Node {
-public:
-    unsigned char data;
-    Node *left;
-    Node *right;
 
-    explicit Node(unsigned char value);
-};
-
-// Binary tree class that stores 'unsigned char' as the data type
+// Binary tree class that stores 'uint8_t' as the data type
 class BinaryTree {
 public:
     BinaryTree();
 
-    void insertNode(unsigned char value);
+    void insertNode(uint8_t value);
 
-    void deleteNode(unsigned char value);
+    void deleteNode(uint8_t value);
 
-    bool search(unsigned char value);
+    bool search(uint8_t value);
 
     void inorder();
 
@@ -43,11 +35,11 @@ public:
 private:
     Node *root;
 
-    Node *_deleteRecursive(Node *current, unsigned char value);
+    Node *_deleteRecursive(Node *current, uint8_t value);
 
     static Node *_findMin(Node *node);
 
-    bool _searchRecursive(Node *current, unsigned char value);
+    bool _searchRecursive(Node *current, uint8_t value);
 
     void _inorderRecursive(Node *node);
 

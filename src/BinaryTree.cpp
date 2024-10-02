@@ -1,16 +1,12 @@
-//
-// Created by hajlektalan on 2024-09-18.
-//
-
 #include "BinaryTree.h"
 #include "BitReader.h"
 #include "BitWriter.h"
+#include "Node.h"
 
-Node::Node(unsigned char value) : data(value), left(nullptr), right(nullptr) {}
 
 BinaryTree::BinaryTree() : root(nullptr) {}
 
-void BinaryTree::insertNode(unsigned char value) {
+void BinaryTree::insertNode(uint8_t value) {
     Node *newNode = new Node(value);
 
     if (root == nullptr) {
@@ -40,7 +36,7 @@ void BinaryTree::insertNode(unsigned char value) {
     }
 }
 
-Node *BinaryTree::_deleteRecursive(Node *current, unsigned char value) {
+Node *BinaryTree::_deleteRecursive(Node *current, uint8_t value) {
     if (current == nullptr) return nullptr;
 
     if (current->data == value) {
@@ -75,13 +71,13 @@ Node *BinaryTree::_findMin(Node *node) {
     return node;
 }
 
-bool BinaryTree::_searchRecursive(Node *current, unsigned char value) {
+bool BinaryTree::_searchRecursive(Node *current, uint8_t value) {
     if (current == nullptr) return false;
     if (current->data == value) return true;
     return _searchRecursive(current->left, value) || _searchRecursive(current->right, value);
 }
 
-bool BinaryTree::search(unsigned char value) {
+bool BinaryTree::search(uint8_t value) {
     return _searchRecursive(root, value);
 }
 
@@ -159,7 +155,7 @@ Node *BinaryTree::_deserialize(BitReader &bitReader) {
         return nullptr;
     }
 
-    unsigned char value = bitReader.readBits(8);
+    uint8_t value = bitReader.readBits(8);
     Node *node = new Node(value);
     node->left = _deserialize(bitReader);
     node->right = _deserialize(bitReader);

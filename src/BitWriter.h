@@ -31,7 +31,7 @@ public:
         }
     }
 
-    void writeByte(unsigned char byte) {
+    void writeByte(uint8_t byte) {
         for (int i = 7; i >= 0; --i) {
             writeBit((byte >> i) & 1);
         }
@@ -39,7 +39,7 @@ public:
 
 private:
     std::ofstream outFile;
-    unsigned char bitBuffer;
+    uint8_t bitBuffer;
     int bitCount;
 
     void flush() {

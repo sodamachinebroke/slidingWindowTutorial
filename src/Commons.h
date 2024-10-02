@@ -10,7 +10,7 @@ public:
 
     static size_t split(const std::string &txt, std::vector<std::string> &strs, char ch);
 
-    static std::unordered_map<unsigned char, int> calculateFrequencies(const std::string &filename);
+    static std::unordered_map<uint8_t, int> calculateFrequencies(const std::string &filename);
 
 };
 

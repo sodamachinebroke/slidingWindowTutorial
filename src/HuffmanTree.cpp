@@ -11,7 +11,7 @@
 #include <fstream>
 #include <functional>
 
-HuffmanNode *HuffmanTree::buildHuffmanTree(const std::unordered_map<unsigned char, int> &frequencies) {
+HuffmanNode *HuffmanTree::buildHuffmanTree(const std::unordered_map<uint8_t, int> &frequencies) {
     std::priority_queue<HuffmanNode *, std::vector<HuffmanNode *>, CompareNode> minHeap;
     for (const auto &[byte, frequency]: frequencies) {
         minHeap.push(new HuffmanNode(byte, frequency));
@@ -36,7 +36,7 @@ HuffmanNode *HuffmanTree::buildHuffmanTree(const std::unordered_map<unsigned cha
 }
 
 void HuffmanTree::generateCodes(HuffmanNode *node, const std::string &code,
-                                std::unordered_map<unsigned char, std::string> &codes) {
+                                std::unordered_map<uint8_t, std::string> &codes) {
     if (!node) return;
     //wtf is a leaf node
     if (!node->left && !node->right) {
@@ -51,7 +51,7 @@ void HuffmanTree::generateCodes(HuffmanNode *node, const std::string &code,
 
 void
 HuffmanTree::saveCompressedFile(const std::string &inputFilename, const std::string &outputFilename, HuffmanNode *root,
-                                const std::unordered_map<unsigned char, std::string> &codes) {
+                                const std::unordered_map<uint8_t, std::string> &codes) {
     std::ifstream inFile(inputFilename, std::ios::binary);
     BitWriter bitWriter(outputFilename);
 
@@ -72,7 +72,7 @@ HuffmanTree::saveCompressedFile(const std::string &inputFilename, const std::str
 
     serializeTree(root);
 
-    unsigned char byte;
+    uint8_t byte;
 
     while (inFile.read(reinterpret_cast<char *>(&byte), sizeof(byte))) {
         const std::string &code = codes.at(byte);
@@ -89,7 +89,7 @@ HuffmanNode *HuffmanTree::deserializeTree(BitReader &bitReader) {
     if (!bitReader.readBit()) { return nullptr; }
 
     if (bitReader.readBit()) {
-        unsigned char byte = bitReader.readBits(8);
+        uint8_t byte = bitReader.readBits(8);
         return new HuffmanNode(byte, 0);
     }
 

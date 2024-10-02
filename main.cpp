@@ -7,10 +7,10 @@
 #include "src/HuffmanTree.h"
 
 
-std::unordered_map<unsigned char, int> buildFrequencyTable(const std::string &inputFilename) {
+std::unordered_map<uint8_t, int> buildFrequencyTable(const std::string &inputFilename) {
     std::ifstream inFile(inputFilename, std::ios::binary);
-    std::unordered_map<unsigned char, int> frequencies;
-    unsigned char byte;
+    std::unordered_map<uint8_t, int> frequencies;
+    uint8_t byte;
 
     while (inFile.read(reinterpret_cast<char *>(&byte), sizeof(byte))) {
         frequencies[byte]++;
@@ -19,10 +19,10 @@ std::unordered_map<unsigned char, int> buildFrequencyTable(const std::string &in
     return frequencies;
 }
 
-std::pair<unsigned char, int> findMaxEntry(const std::unordered_map<unsigned char, int> &frequencies) {
-    std::pair<unsigned char, int> maxEntry = std::make_pair(0, 0);
+std::pair<uint8_t, int> findMaxEntry(const std::unordered_map<uint8_t, int> &frequencies) {
+    std::pair<uint8_t, int> maxEntry = std::make_pair(0, 0);
 
-    for (auto frequency : frequencies) {
+    for (auto frequency: frequencies) {
         if (frequency.second > maxEntry.second) {
             maxEntry = std::make_pair(frequency.first, frequency.second);
         }
@@ -59,9 +59,9 @@ int main() {
         BitReader reader("../public/input3.bin");
 
         while (reader.hasMoreBits()) {
-            unsigned char byte = reader.readBits(8);
-            auto ucharValue = static_cast<unsigned char>(byte);
-            std::cout << static_cast<unsigned char>(byte) << std::endl;
+            uint8_t byte = reader.readBits(8);
+            auto ucharValue = static_cast<uint8_t>(byte);
+            std::cout << static_cast<uint8_t>(byte) << std::endl;
             tree.insertNode(ucharValue);
         }
     } catch (const std::exception &e) {
@@ -102,16 +102,17 @@ int main() {
     std::string inputFilename = "../public/input3.bin";
     std::string outputFilename = "../public/output3comp.bin";
 
-    std::unordered_map<unsigned char, int> frequencies = buildFrequencyTable(inputFilename);
+    std::unordered_map<uint8_t, int> frequencies = buildFrequencyTable(inputFilename);
     for (auto x: frequencies) {
-        std::cout<<x.first<<" -> "<<x.second<<std::endl;
+        std::cout << x.first << " -> " << x.second << std::endl;
     }
 
-    std::cout << "Highest frequency key - value: " << findMaxEntry(frequencies).first << " -> " << findMaxEntry(frequencies).second << std::endl;
+    std::cout << "Highest frequency key - value: " << findMaxEntry(frequencies).first << " -> "
+              << findMaxEntry(frequencies).second << std::endl;
 
     HuffmanNode *root = HuffmanTree::buildHuffmanTree(frequencies);
 
-    std::unordered_map<unsigned char, std::string> huffmanCodes;
+    std::unordered_map<uint8_t, std::string> huffmanCodes;
     HuffmanTree::generateCodes(root, "", huffmanCodes);
 
     HuffmanTree::saveCompressedFile(inputFilename, outputFilename, root, huffmanCodes);

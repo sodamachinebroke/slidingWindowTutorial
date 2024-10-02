@@ -25,10 +25,10 @@ size_t Commons::split(const std::string &txt, std::vector<std::string> &strs, ch
 
 }
 
-std::unordered_map<unsigned char, int> Commons::calculateFrequencies(const std::string &filename) {
+std::unordered_map<uint8_t, int> Commons::calculateFrequencies(const std::string &filename) {
     std::ifstream file(filename, std::ios::binary);
-    std::unordered_map<unsigned char, int> frequencies;
-    unsigned char byte;
+    std::unordered_map<uint8_t, int> frequencies;
+    uint8_t byte;
 
     while (file.read(reinterpret_cast<char *>(&byte), sizeof(byte))) {
         frequencies[byte]++;
