@@ -1,7 +1,3 @@
-//
-// Created by hajlektalan on 2024-09-18.
-//
-
 #include "BitReader.h"
 
 BitReader::BitReader(const std::string &filename) : inputStream(filename, std::ios::binary), bitBuffer(0), bitCount(0) {

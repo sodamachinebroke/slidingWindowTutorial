@@ -1,7 +1,3 @@
-//
-// Created by hajlektalan on 2024-09-18.
-//
-
 #ifndef SLIDINGWINDOWTUTORIAL_BITREADER_H
 #define SLIDINGWINDOWTUTORIAL_BITREADER_H
 
