@@ -20,4 +20,10 @@ add_executable(slidingWindowTutorial main.cpp
         src/HuffmanNode.h
         src/Node.cpp
         src/HuffmanNode.cpp
+        src/FileReader.cpp
+        src/FileReader.h
+        src/BinaryTree.cpp
+        src/BinaryTree.h
+        src/Node.cpp
+        src/Node.h
 )
