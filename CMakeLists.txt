@@ -3,25 +3,31 @@ project(slidingWindowTutorial)
 
 set(CMAKE_CXX_STANDARD 26)
 
-add_executable(slidingWindowTutorial main.cpp
-        src/Commons.cpp
-        src/Commons.h
-        src/hashMap.cpp
-        src/HashMap.h
-        src/BinaryTree.h
-        src/BitReader.cpp
-        src/BitReader.h
-        src/BinaryTree.cpp
-        src/BitWriter.cpp
-        src/BitWriter.h
-        src/HuffmanTree.cpp
-        src/HuffmanTree.h
-        src/Node.h
-        src/HuffmanNode.h
-        src/HuffmanNode.cpp
-        src/FileReader.cpp
-        src/FileReader.h
+add_library(BinaryTree
+
         src/BinaryTree.cpp
         src/BinaryTree.h
         src/Node.h
 )
+
+add_executable(slidingWindowTutorial
+        main.cpp
+)
+
+target_link_libraries(slidingWindowTutorial PRIVATE BinaryTree)
+
+enable_testing()
+
+include(FetchContent)
+FetchContent_Declare(
+        googletest
+        URL https://github.com/google/googletest/archive/refs/tags/v1.15.2.zip
+)
+
+set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+FetchContent_MakeAvailable(googletest)
+
+add_executable(BinaryTreeTest tests/BinaryTreeTest.cpp)
+target_link_libraries(BinaryTreeTest PRIVATE BinaryTree gtest gtest_main)
+
+add_test(NAME BinaryTreeTest COMMAND BinaryTreeTest)
