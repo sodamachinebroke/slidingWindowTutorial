@@ -5,6 +5,7 @@
 #include <unordered_map>
 #include <iostream>
 #include <fstream>
+#include <cstdint>
 
 size_t Commons::split(const std::string &txt, std::vector<std::string> &strs, char ch) {
 

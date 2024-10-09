@@ -1,6 +1,7 @@
 #include <vector>
 #include <string>
 #include <unordered_map>
+#include <cstdint>
 
 #ifndef COMMONS_H
 #define COMMONS_H
