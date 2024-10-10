@@ -1,23 +1,21 @@
-
-
-
 #include "BinaryTree.h"
 
+#include <algorithm>
 #include <iostream>
 #include <vector>
 #include <queue>
+#include <bits/stdc++.h>
 
 BinaryTree::BinaryTree() : root(nullptr) {
 }
 
 
 uint8_t BinaryTree::buildTree(const std::vector<uint8_t> &buffer) {
-    if (buffer.empty()) {
-        std::cout << "Buffer size is less than 1." << std::endl;
-        return 0; // no tree
-    }
+    if (buffer.empty()) return 0;
 
     root = new Node(buffer[0]);
+
+    if (buffer.size() == 1) return 1;
 
     std::queue<Node *> nodeQueue;
     nodeQueue.push(root);
@@ -25,10 +23,11 @@ uint8_t BinaryTree::buildTree(const std::vector<uint8_t> &buffer) {
     size_t index = 1;
     uint8_t depth = 0;
 
-    while (index < buffer.size()) {
-        std::queue<Node *>::size_type levelSize = nodeQueue.size();
+    while (!nodeQueue.empty()) {
+        const size_t levelSize = nodeQueue.size();
+        ++depth;
 
-        for (std::queue<Node *>::size_type i = 0; levelSize && index < buffer.size(); ++i) {
+        for (size_t i = 0; i < levelSize; ++i) {
             Node *current = nodeQueue.front();
             nodeQueue.pop();
 
@@ -36,19 +35,14 @@ uint8_t BinaryTree::buildTree(const std::vector<uint8_t> &buffer) {
                 current->left = new Node(buffer[index++]);
                 nodeQueue.push(current->left);
             }
-
             if (index < buffer.size()) {
                 current->right = new Node(buffer[index++]);
                 nodeQueue.push(current->right);
             }
-
         }
-        ++depth;
 
-        if (depth == 255) {
-            break;
-        }
+        if (depth == 255)break;
     }
-    return depth; //robot wrote this.
+    return depth;
 }
 
