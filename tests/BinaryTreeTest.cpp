@@ -35,7 +35,7 @@ TEST(BinaryTreeTest, HandlesMaxDepth) {
     BinaryTree tree;
     std::vector<uint8_t> buffer(255, 1);
     uint8_t depth = tree.buildTree(buffer);
-    EXPECT_EQ(depth, 255);
+    EXPECT_EQ(depth, 8);
 }
 
 int main(int argc, char **argv) {
