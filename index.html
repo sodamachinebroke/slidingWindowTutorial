@@ -10,11 +10,11 @@
       
       
       
-        <link rel="next" href="commons/">
+        <link rel="next" href="node/">
       
       
       <link rel="icon" href="assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.34">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.42">
     
     
       
@@ -22,7 +22,7 @@
       
     
     
-      <link rel="stylesheet" href="assets/stylesheets/main.35f28582.min.css">
+      <link rel="stylesheet" href="assets/stylesheets/main.0253249f.min.css">
       
         
         <link rel="stylesheet" href="assets/stylesheets/palette.06af60db.min.css">
@@ -234,17 +234,6 @@
         
       
       
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    Home
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
       <a href="." class="md-nav__link md-nav__link--active">
         
   
@@ -255,34 +244,46 @@
 
       </a>
       
-        
+    </li>
+  
 
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
     
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
-        <li class="md-nav__item">
-  <a href="#key-functions" class="md-nav__link">
-    <span class="md-ellipsis">
-      Key functions:
-    </span>
-  </a>
-  
-</li>
       
-    </ul>
   
-</nav>
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="node/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Node
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
       
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="binaryTree/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Binary Tree
+  </span>
+  
+
+      </a>
     </li>
   
 
@@ -298,47 +299,7 @@
         
   
   <span class="md-ellipsis">
-    Commons
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="hashMap/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Hash Map
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="binaryTree.md" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Binary Tree
+    (Deprecated) Commons
   </span>
   
 
@@ -367,23 +328,6 @@
     
   
   
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#key-functions" class="md-nav__link">
-    <span class="md-ellipsis">
-      Key functions:
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
 </nav>
                   </div>
                 </div>
@@ -399,16 +343,6 @@
 
 <h1 id="goal-of-this-documentation">Goal of this documentation</h1>
 <p>I am learning how to document my progression with my own compression algorithm design.</p>
-<h2 id="key-functions">Key functions:</h2>
-<ul>
-<li><a href="commons/#split">Split</a></li>
-</ul>
-<div class="language-c++ highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kt">size_t</span><span class="w"> </span><span class="nf">split</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="o">&amp;</span><span class="n">txt</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span><span class="w"> </span><span class="o">&amp;</span><span class="n">strs</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="n">ch</span><span class="p">);</span>
-</span></code></pre></div>
-<p>Excuse me for pooping all over the place, but here we go</p>
-<p>So the basic idea is that there will be a compressor that creates the smallest possible files. The execution is going to
-be done in a number of ways.</p>
-<p>I'll list the execution methods quickly:</p>
 <h1 id="binary-tree">Binary tree</h1>
 <h2 id="common-binary-tree">common binary tree</h2>
 <ol>
@@ -428,18 +362,18 @@ be done in a number of ways.</p>
 <li>Let's build a frequency vector (more or less a map, but due to it needing to be sortable, it will now be a
   struct vector):</li>
 </ul>
-<div class="language-c++ highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="sc">&#39;d&#39;</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="mi">3</span>
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="sc">&#39;a&#39;</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="mi">2</span>
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="sc">&#39;b&#39;</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="mi">4</span>
-</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="sc">&#39;c&#39;</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="mi">1</span>
+<div class="language-c++ highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="sc">&#39;d&#39;</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="mi">3</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="sc">&#39;a&#39;</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="mi">2</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="sc">&#39;b&#39;</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="mi">4</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="sc">&#39;c&#39;</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="mi">1</span>
 </span></code></pre></div>
 <p>Obviously the characters are only represented as characters. In reality they are 8bit long values.</p>
 <p>So after we are done with that, let's build a huffman tree:</p>
 <p><img alt="htree.svg" src="images/htree.svg" /></p>
 <p>Boom magic</p>
 <p>and this will be serialized as the following (according to my ideas):</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>[depth][code][value][code][value][code][value][code][value][encoded bitstream]
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>[4][1][b][00][d][011][a][010][c][encoded bitstream]
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>[depth][code][value][code][value][code][value][code][value][encoded bitstream]
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>[4][1][b][00][d][011][a][010][c][encoded bitstream]
 </span></code></pre></div>
 <p>Hopefully makes sense</p>
 <p>The decompressor will be able to build the tree out of it.</p>
@@ -494,10 +428,10 @@ easier to decompress the file. Example will be up soon.</p>
     </div>
     
     
-    <script id="__config" type="application/json">{"base": ".", "features": ["content.code.copy", "content.code.select"], "search": "assets/javascripts/workers/search.07f07601.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": ".", "features": ["content.code.copy", "content.code.select"], "search": "assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="assets/javascripts/bundle.56dfad97.min.js"></script>
+      <script src="assets/javascripts/bundle.83f73b43.min.js"></script>
       
     
   </body>
