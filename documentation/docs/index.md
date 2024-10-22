@@ -2,20 +2,33 @@
 
 I am learning how to document my progression with my own compression algorithm design.
 
-## Key functions:
+[//]: # (## Key functions:)
 
-- [Split](commons.md#split)
+[//]: # ()
 
-```c++
-size_t split(const std::string &txt, std::vector<std::string> &strs, char ch);
-```
+[//]: # (- [Split]&#40;commons.md#split&#41;)
 
-Excuse me for pooping all over the place, but here we go
+[//]: # ()
 
-So the basic idea is that there will be a compressor that creates the smallest possible files. The execution is going to
-be done in a number of ways.
+[//]: # (```c++)
 
-I'll list the execution methods quickly:
+[//]: # (size_t split&#40;const std::string &txt, std::vector<std::string> &strs, char ch&#41;;)
+
+[//]: # (```)
+
+[//]: # ()
+
+[//]: # (Excuse me for pooping all over the place, but here we go)
+
+[//]: # ()
+
+[//]: # (So the basic idea is that there will be a compressor that creates the smallest possible files. The execution is going to)
+
+[//]: # (be done in a number of ways.)
+
+[//]: # ()
+
+[//]: # (I'll list the execution methods quickly:)
 
 # Binary tree
 

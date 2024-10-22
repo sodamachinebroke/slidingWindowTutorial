@@ -6,20 +6,23 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
 
 
-    <link rel="next" href="node/">
+    <link rel="prev" href="..">
 
 
-    <link rel="icon" href="assets/images/favicon.png">
+    <link rel="next" href="../binaryTree/">
+
+
+    <link rel="icon" href="../assets/images/favicon.png">
     <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.42">
 
 
-    <title>Compression Algorithm Learning Repository</title>
+    <title>Node - Compression Algorithm Learning Repository</title>
 
 
-    <link rel="stylesheet" href="assets/stylesheets/main.0253249f.min.css">
+    <link rel="stylesheet" href="../assets/stylesheets/main.0253249f.min.css">
 
 
-    <link rel="stylesheet" href="assets/stylesheets/palette.06af60db.min.css">
+    <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
 
 
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -31,7 +34,7 @@
     }</style>
 
 
-    <script>__md_scope = new URL(".", location), __md_hash = e => [...e].reduce(((e, _) => (e << 5) - e + _.charCodeAt(0)), 0), __md_get = (e, _ = localStorage, t = __md_scope) => JSON.parse(_.getItem(t.pathname + "." + e)), __md_set = (e, _, t = localStorage, a = __md_scope) => {
+    <script>__md_scope = new URL("..", location), __md_hash = e => [...e].reduce(((e, _) => (e << 5) - e + _.charCodeAt(0)), 0), __md_get = (e, _ = localStorage, t = __md_scope) => JSON.parse(_.getItem(t.pathname + "." + e)), __md_set = (e, _, t = localStorage, a = __md_scope) => {
         try {
             t.setItem(a.pathname + "." + e, JSON.stringify(_))
         } catch (e) {
@@ -50,11 +53,6 @@
 <label class="md-overlay" for="__drawer"></label>
 <div data-md-component="skip">
 
-
-    <a href="#goal-of-this-documentation" class="md-skip">
-        Skip to content
-    </a>
-
 </div>
 <div data-md-component="announce">
 
@@ -63,7 +61,7 @@
 
 <header class="md-header md-header--shadow" data-md-component="header">
     <nav class="md-header__inner md-grid" aria-label="Header">
-        <a href="." title="Compression Algorithm Learning Repository" class="md-header__button md-logo"
+        <a href=".." title="Compression Algorithm Learning Repository" class="md-header__button md-logo"
            aria-label="Compression Algorithm Learning Repository" data-md-component="logo">
 
 
@@ -88,7 +86,7 @@
                 <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Home
+              Node
             
           </span>
                 </div>
@@ -202,7 +200,7 @@
 
                         <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
                             <label class="md-nav__title" for="__drawer">
-                                <a href="." title="Compression Algorithm Learning Repository"
+                                <a href=".." title="Compression Algorithm Learning Repository"
                                    class="md-nav__button md-logo" aria-label="Compression Algorithm Learning Repository"
                                    data-md-component="logo">
 
@@ -218,12 +216,8 @@
                             <ul class="md-nav__list" data-md-scrollfix>
 
 
-                                <li class="md-nav__item md-nav__item--active">
-
-                                    <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-
-
-                                    <a href="." class="md-nav__link md-nav__link--active">
+                                <li class="md-nav__item">
+                                    <a href=".." class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -232,12 +226,15 @@
 
 
                                     </a>
-
                                 </li>
 
 
-                                <li class="md-nav__item">
-                                    <a href="node/" class="md-nav__link">
+                                <li class="md-nav__item md-nav__item--active">
+
+                                    <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+
+
+                                    <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -246,11 +243,12 @@
 
 
                                     </a>
+
                                 </li>
 
 
                                 <li class="md-nav__item">
-                                    <a href="binaryTree/" class="md-nav__link">
+                                    <a href="../binaryTree/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -263,7 +261,7 @@
 
 
                                 <li class="md-nav__item">
-                                    <a href="commons/" class="md-nav__link">
+                                    <a href="../commons/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -300,70 +298,48 @@
                 <article class="md-content__inner md-typeset">
 
 
-                    <h1 id="goal-of-this-documentation">Goal of this documentation</h1>
-                    <p>I am learning how to document my progression with my own compression algorithm design.</p>
-                    <h1 id="binary-tree">Binary tree</h1>
-                    <h2 id="common-binary-tree">common binary tree</h2>
-                    <ol>
-                        <li>This is done so that there is some base for comparison, but we're here so why not after
-                            all.
-                        </li>
-                    </ol>
-                    <h2 id="huffman-tree">Huffman tree</h2>
-                    <ol>
-                        <li>This is an advanced form of a binary tree that takes the frequency of every byte, sorts them
-                            into a vector
-                            and builds a binary tree based off that. New methods, contained in this class will only be
-                            the tree builder,
-                            as it will receive a new kind of Node. This thing will supposedly build a more optimized
-                            binary tree, but
-                            let's see how the compressed file will look.
-                        </li>
-                    </ol>
-                    <h4 id="example">Example</h4>
-                    <ul>
-                        <li>We have the following file, as seen in a HEX-editor: <code>64 61 61 62 62 62 62 63 64
-                            64</code>
-                            dump: <code>daabbbbcdd</code></li>
-                        <li>Let's build a frequency vector (more or less a map, but due to it needing to be sortable, it
-                            will now be a
-                            struct vector):
-                        </li>
-                    </ul>
-                    <div class="language-c++ highlight"><pre><span></span><code><span id="__span-0-1"><a
-                            id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="sc">&#39;d&#39;</span><span
-                            class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span
-                            class="mi">3</span>
+                    <h1>Node</h1>
+
+                    <p>Basic node storage class</p>
+                    <p>Has left and right Node pointers, which creates a recursive chain. In this recursive chain, every
+                        node has a value or
+                        <code>data</code>. This is used to store the binary value, aka a <code>byte</code> or in this
+                        case <code>uint8_t</code>.</p>
+                    <details>
+                        <summary style="cursor: pointer; user-select: none">Node</summary>
+                        <div class="language-c++ highlight"><pre><span></span><code><span id="__span-0-1"><a
+                                id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span
+                                class="k">class</span><span class="w"> </span><span class="nc">Node</span><span
+                                class="w"> </span><span class="p">{</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span
-                            class="sc">&#39;a&#39;</span><span class="w"> </span><span class="o">=&gt;</span><span
-                            class="w"> </span><span class="mi">2</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span
-                            class="sc">&#39;b&#39;</span><span class="w"> </span><span class="o">=&gt;</span><span
-                            class="w"> </span><span class="mi">4</span>
+                                class="k">public</span><span class="o">:</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span
-                            class="sc">&#39;c&#39;</span><span class="w"> </span><span class="o">=&gt;</span><span
-                            class="w"> </span><span class="mi">1</span>
+                                class="w">    </span><span class="n">Node</span><span class="w"> </span><span class="o">*</span><span
+                                class="n">left</span><span class="p">;</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span
+                                class="w">    </span><span class="n">Node</span><span class="w"> </span><span class="o">*</span><span
+                                class="n">right</span><span class="p">;</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span
+                                class="w">    </span><span class="kt">uint8_t</span><span class="w"> </span><span
+                                class="n">data</span><span class="p">;</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span
+                                class="w">    </span><span class="k">explicit</span><span class="w"> </span><span
+                                class="n">Node</span><span class="p">(</span><span class="kt">uint8_t</span><span
+                                class="w"> </span><span class="n">value</span><span class="p">)</span><span
+                                class="w"> </span><span class="o">:</span><span class="w"> </span><span
+                                class="n">data</span><span class="p">(</span><span class="n">value</span><span
+                                class="p">),</span><span class="w"> </span><span class="n">left</span><span
+                                class="p">(</span><span class="k">nullptr</span><span class="p">),</span><span
+                                class="w"> </span><span class="n">right</span><span class="p">(</span><span class="k">nullptr</span><span
+                                class="p">)</span><span class="w"> </span><span class="p">{}</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span
+                                class="p">};</span>
 </span></code></pre>
-                    </div>
-                    <p>Obviously the characters are only represented as characters. In reality they are 8bit long
-                        values.</p>
-                    <p>So after we are done with that, let's build a huffman tree:</p>
-                    <p><img alt="htree.svg" src="images/htree.svg"/></p>
-                    <p>Boom magic</p>
-                    <p>and this will be serialized as the following (according to my ideas):</p>
-                    <div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a
-                            id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>[depth][code][value][code][value][code][value][code][value][encoded bitstream]
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>[4][1][b][00][d][011][a][010][c][encoded bitstream]
-</span></code></pre>
-                    </div>
-                    <p>Hopefully makes sense</p>
-                    <p>The decompressor will be able to build the tree out of it.</p>
-                    <h1 id="length-prefix">Length-prefix</h1>
-                    <p>i'll look into this</p>
-                    <h1 id="byte-stream">Byte-stream</h1>
-                    <p>This will be more of an n-bit-stream. Basic idea is that codes are stored on equal length fields.
-                        From that, it will be
-                        easier to decompress the file. Example will be up soon.</p>
+                        </div>
+                    </details>
 
 
                 </article>
@@ -401,12 +377,12 @@
 
 
 <script id="__config" type="application/json">{
-    "base": ".",
+    "base": "..",
     "features": [
         "content.code.copy",
         "content.code.select"
     ],
-    "search": "assets/javascripts/workers/search.6ce7567c.min.js",
+    "search": "../assets/javascripts/workers/search.6ce7567c.min.js",
     "translations": {
         "clipboard.copied": "Copied to clipboard",
         "clipboard.copy": "Copy to clipboard",
@@ -422,7 +398,7 @@
 }</script>
 
 
-<script src="assets/javascripts/bundle.83f73b43.min.js"></script>
+<script src="../assets/javascripts/bundle.83f73b43.min.js"></script>
 
 
 </body>

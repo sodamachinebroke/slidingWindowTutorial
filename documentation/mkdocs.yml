@@ -2,9 +2,9 @@ site_name: Compression Algorithm Learning Repository
 
 nav:
   - Home: index.md
-  - Commons: commons.md
-  - Hash Map: hashMap.md
+  - Node: node.md
   - Binary Tree: binaryTree.md
+  - (Deprecated) Commons: commons.md
 
 theme:
   name: material
