@@ -76,6 +76,8 @@ Hopefully makes sense
 
 The decompressor will be able to build the tree out of it.
 
+# **In the meantime, things have changed, so these are now deprecated**
+
 # Length-prefix
 
 i'll look into this
