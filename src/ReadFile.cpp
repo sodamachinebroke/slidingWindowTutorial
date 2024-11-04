@@ -11,8 +11,11 @@
 
 int
 ReadFile::readFromFile(const std::size_t chunk_size, const std::string &file, BinaryTree &tree) {// Chunk size in bytes
-    if (chunk_size < 1)
+    if (chunk_size < 1) {
+        std::cerr << "chunk_size is less than 1" << std::endl;
         return 1;
+    }
+
 
     std::vector<char> buffer(chunk_size); // Buffer for reading chunks
     std::unordered_set<char> unique_bytes;
