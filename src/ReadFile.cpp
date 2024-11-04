@@ -9,8 +9,7 @@
 #include <algorithm>
 
 
-int
-ReadFile::readFromFile(const std::size_t chunk_size, const std::string &file, BinaryTree &tree) {// Chunk size in bytes
+int ReadFile::readFromFile(const std::size_t chunk_size, const std::string &file, BinaryTree &tree) {
     if (chunk_size < 1) {
         std::cerr << "chunk_size is less than 1" << std::endl;
         return 1;
