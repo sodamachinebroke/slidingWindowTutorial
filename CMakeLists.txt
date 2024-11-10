@@ -20,7 +20,6 @@ add_executable(slidingWindowTutorial
 )
 
 target_link_libraries(slidingWindowTutorial PRIVATE BinaryTree)
-target_link_libraries(slidingWindowTutorial PRIVATE ReadFile)
 
 # GoogleTest setup
 enable_testing()
