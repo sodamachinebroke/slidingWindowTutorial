@@ -1,9 +1,9 @@
 #include "ReadFile.h"
 #include "BinaryTree.h"
+
 #include <fstream>
 #include <iostream>
 #include <vector>
-#include <iomanip>
 #include <unordered_set>
 #include <cstdint>
 #include <algorithm>
@@ -14,7 +14,6 @@ int ReadFile::readFromFile(const std::size_t chunk_size, const std::string &file
         std::cerr << "chunk_size is less than 1" << std::endl;
         return 1;
     }
-
 
     std::vector<char> buffer(chunk_size); // Buffer for reading chunks
     std::unordered_set<char> unique_bytes;
