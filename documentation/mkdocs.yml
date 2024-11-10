@@ -2,6 +2,7 @@ site_name: Compression Algorithm Learning Repository
 
 nav:
   - Home: index.md
+  - Reading a file: readFromFile.md
   - Binary Tree: binaryTree.md
   - Node: node.md
   - Recycle Bin: recyclable.md
