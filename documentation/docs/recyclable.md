@@ -175,3 +175,87 @@ std::pair<uint8_t, int> findMaxEntry(const std::unordered_map<uint8_t, int> &fre
     return maxEntry;
 }
 ```
+
+```c++
+#include <iostream>
+#include <vector>
+#include <fstream>
+#include <cstdint>
+#include <iomanip>
+
+std::vector<uint8_t> readBinaryFile(const std::string &filename) {
+std::ifstream file(filename, std::ios::binary);
+if (!file) throw std::runtime_error("Error opening file: " + filename);
+return std::vector<uint8_t>(std::istreambuf_iterator<char>(file), {});
+}
+
+void runLengthEncode(const std::vector<uint8_t> &data, const std::string &filename) {
+std::ofstream file(filename, std::ios::binary);
+if (!file) return;
+
+std::vector<std::pair<uint8_t, uint32_t>> encodedData;
+
+for (size_t i = 0; i < data.size();) {
+uint8_t value = data[i];
+uint32_t count = 1;
+
+while (i + count < data.size() && data[i + count] == value) ++count;
+
+encodedData.emplace_back(value, count);
+i += count;
+}
+
+for (const auto &[value, count]: encodedData) {
+file.write(reinterpret_cast<const char *>(&value), sizeof(uint8_t));
+file.write(reinterpret_cast<const char *>(&count), sizeof(uint32_t));
+}
+
+file.close();
+
+std::cout << "Data written to: " << filename << std::endl;
+}
+
+void runLengthDecode(const std::string &filename, std::vector<uint8_t> &decodedData) {
+std::ifstream file(filename, std::ios::binary);
+if (!file) return;
+decodedData.clear();
+
+uint8_t value;
+uint32_t count;
+
+while (file.read(reinterpret_cast<char *>(&value), sizeof(uint8_t)) &&
+file.read(reinterpret_cast<char *>(&count), sizeof(uint32_t))) {
+for (uint32_t i = 0; i < count; ++i) decodedData.push_back(value);
+}
+
+file.close();
+std::cout << "Run-Length Decoded data read from " << filename << std::endl;
+}
+```
+
+```c++
+ const std::string infile = "../public/movie.mp4";
+const std::string outfile = "../public/rle_movie.bin";
+try {
+
+std::vector<uint8_t> data = readBinaryFile(infile);
+runLengthEncode(data, outfile);
+
+// std::vector<uint8_t> decodedData;
+//runLengthDecode(outfile, decodedData);
+
+// Verify the result
+/*std::cout << "Original Data: ";
+for (uint8_t value: data) {
+    std::cout << std::hex << std::setw(2) << std::setfill('0') << (int) value << " ";
+}
+std::cout << "\nDecoded Data: ";
+for (uint8_t value: decodedData) {
+    std::cout << std::hex << std::setw(2) << std::setfill('0') << (int) value << " ";
+}
+std::cout << std::endl;*/
+} catch (const std::exception &e) {
+std::cerr << "Error: " << e.what() << std::endl;
+
+}
+```
