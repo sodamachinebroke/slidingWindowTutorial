@@ -17,6 +17,10 @@ So far I have made a function that uses entropy coding with a dynamic dictionary
 - File handling, byte compression
 - Compression using Inline Assembly, as it provides a much faster run time
 
+
+Inline Assembly proved irrelevant, as g++ translates code into a much better machine code than I could ever write.
+
+Moreover, i have managed to store things in binary trees, but cannot compress, which is pretty bad and kind of against the whole idea lol
 I have created a topic. Idk what that's called, help
 You can find it [here](documentation/topic.md)
 
