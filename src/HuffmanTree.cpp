@@ -1,3 +1,5 @@
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "misc-no-recursion"
 
 #include "HuffmanTree.h"
 
@@ -6,78 +8,103 @@
 #include <queue>
 #include <unordered_map>
 #include <memory>
-#include <fstream>
-#include <bitset>
 #include <functional>
 
-void HuffmanTree::buildEncodingMap(const HuffmanNode *node, const std::string &code,
-                                   std::unordered_map<uint8_t, std::string> &encodingMap) const {
-    if (!node) return;
-
-    if (node->isLeaf()) {
-        encodingMap[node->data] = code;
-    } else {
-        buildEncodingMap(node->left.get(), code + "0", encodingMap);
-        buildEncodingMap(node->right.get(), code + "1", encodingMap);
-    }
-}
-
-
 void HuffmanTree::buildTree(const std::unordered_map<uint8_t, size_t> &freqMap) {
-    std::priority_queue<std::unique_ptr<HuffmanNode>, std::vector<std::unique_ptr<HuffmanNode>>, NodeComparator> pq;
+    std::priority_queue<HuffmanNode *, std::vector<HuffmanNode *>, NodeComparator> pq;
 
-    // Create leaf nodes for each symbol and push into priority queue
+    // Create leaf nodes for each symbol and push into the priority queue
     for (const auto &[symbol, freq]: freqMap) {
-        pq.push(std::make_unique<HuffmanNode>(symbol, freq));
+        pq.push(new HuffmanNode(symbol, freq));
     }
 
     // Build the tree
     while (pq.size() > 1) {
-        auto left = std::move(pq.top());
+        HuffmanNode *left = pq.top();
         pq.pop();
-        auto right = std::move(pq.top());
+        HuffmanNode *right = pq.top();
         pq.pop();
-
-        pq.push(std::make_unique<HuffmanNode>(std::move(left), std::move(right)));
+        pq.push(new HuffmanNode(left, right));
     }
 
     // Set the root
-    root = std::move(pq.top());
+    if (!pq.empty()) {
+        root = pq.top();
+        pq.pop();
+    }
 }
 
+
 void HuffmanTree::serialize(std::ostream &output) const {
-    std::function<void(const HuffmanNode *)> serializeHelper = [&](const HuffmanNode *node) {
+    std::function<void(HuffmanNode *)> serializeHelper = [&](HuffmanNode *node) {
         if (!node) return;
-        if (node->isLeaf()) {
-            output.put(0x01);  // Leaf marker
-            output.put(node->data);
-        } else {
-            output.put(0x00);  // Internal node marker
-            serializeHelper(node->left.get());
-            serializeHelper(node->right.get());
+        if (!node->left && !node->right) { // Leaf node
+            output.put(0x01); // Marker for leaf
+            output.put(node->data); // Write the symbol
+        } else { // Internal node
+            output.put(0x00); // Marker for internal node
+            serializeHelper(node->left);
+            serializeHelper(node->right);
         }
     };
-
-    serializeHelper(root.get());
+    serializeHelper(root);
 }
 
 void HuffmanTree::deserialize(std::istream &input) {
-    std::function<std::unique_ptr<HuffmanNode>()> deserializeHelper = [&]() -> std::unique_ptr<HuffmanNode> {
+    std::function<HuffmanNode *()> deserializeHelper = [&]() -> HuffmanNode * {
         char marker = input.get();
         if (marker == 0x01) {
             uint8_t value = input.get();
-            return std::make_unique<HuffmanNode>(value);
+            return new HuffmanNode(value, 0); // Frequency is not used during deserialization
         } else if (marker == 0x00) {
-            auto left = deserializeHelper();
-            auto right = deserializeHelper();
-            return std::make_unique<HuffmanNode>(std::move(left), std::move(right));
+            HuffmanNode *left = deserializeHelper();
+            HuffmanNode *right = deserializeHelper();
+            return new HuffmanNode(left, right);
         }
-        return nullptr;  // Should not reach here
+        return nullptr; // Should not reach here
     };
 
+    delete root; // Clean up the old tree
     root = deserializeHelper();
 }
 
-const HuffmanNode *HuffmanTree::getRoot() const {
-    return root.get();
+HuffmanNode *HuffmanTree::getRoot() const {
+    return root;
 }
+
+std::string HuffmanTree::getCode(uint8_t byte) const {
+    std::string path;
+    if (findCode(root, byte, path)) {
+        return path;
+    }
+    throw std::runtime_error("Byte not found in Huffman Tree");
+}
+
+bool HuffmanTree::findCode(const HuffmanNode *node, uint8_t byte, std::string &path) const {
+    if (!node) {
+        return false;
+    }
+
+    if (node->isLeaf() && node->data == byte) {
+        return true;
+    }
+
+    // Explore left subtree
+    path.push_back('0');
+    if (findCode(node->left, byte, path)) {
+        return true;
+    }
+    path.pop_back();
+
+    // Explore right subtree
+    path.push_back('1');
+    if (findCode(node->right, byte, path)) {
+        return true;
+    }
+    path.pop_back();
+
+    return false;
+}
+
+
+#pragma clang diagnostic pop

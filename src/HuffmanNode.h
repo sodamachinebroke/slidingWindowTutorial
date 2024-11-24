@@ -8,19 +8,23 @@
 
 class HuffmanNode {
 public:
-    uint8_t data;
-    size_t frequency;
-    std::unique_ptr<HuffmanNode> left;
-    std::unique_ptr<HuffmanNode> right;
+    uint8_t data;                // Symbol
+    size_t frequency;            // Frequency of the symbol
+    HuffmanNode *left;           // Left child
+    HuffmanNode *right;          // Right child
 
-    // Constructor for leaf nodes
-    explicit HuffmanNode(uint8_t value, size_t freq = 0)
-            : data(value), frequency(freq), left(nullptr), right(nullptr) {}
+    // Constructor for a leaf node
+    HuffmanNode(uint8_t data, size_t frequency)
+            : data(data), frequency(frequency), left(nullptr), right(nullptr) {}
 
-    // Constructor for internal nodes
-    HuffmanNode(std::unique_ptr<HuffmanNode> leftChild, std::unique_ptr<Node> rightChild)
-            : data(0), frequency(leftChild->frequency + rightChild->frequency),
-              left(std::move(leftChild)), right(std::move(rightChild)) {}
+    // Constructor for an internal node
+    HuffmanNode(HuffmanNode *left, HuffmanNode *right)
+            : data(0), frequency(left->frequency + right->frequency), left(left), right(right) {}
+
+    ~HuffmanNode() {
+        delete left;
+        delete right;
+    }
 
     // Check if this is a leaf node
     [[nodiscard]] bool isLeaf() const {

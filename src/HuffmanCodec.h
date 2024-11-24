@@ -1,17 +1,13 @@
-
-
 #ifndef SLIDINGWINDOWTUTORIAL_HUFFMANCODEC_H
 #define SLIDINGWINDOWTUTORIAL_HUFFMANCODEC_H
 
 #include "HuffmanTree.h"
-
 #include <vector>
 
 class HuffmanCodec {
-
 private:
     HuffmanTree tree;
-    std::unordered_map<uint8_t, std::string> encodingMap;
+
 public:
     void build(const std::unordered_map<uint8_t, size_t> &freqMap);
 
@@ -24,5 +20,4 @@ public:
     void deserializeTree(std::istream &input);
 };
 
-
-#endif //SLIDINGWINDOWTUTORIAL_HUFFMANCODEC_H
+#endif // SLIDINGWINDOWTUTORIAL_HUFFMANCODEC_H

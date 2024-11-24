@@ -2,13 +2,12 @@
 
 void HuffmanCodec::build(const std::unordered_map<uint8_t, size_t> &freqMap) {
     tree.buildTree(freqMap);
-    encodingMap = tree.getEncodingMap();
 }
 
 std::vector<bool> HuffmanCodec::encode(const std::vector<uint8_t> &message) const {
     std::vector<bool> encodedBits;
     for (uint8_t byte: message) {
-        const std::string &code = encodingMap.at(byte);
+        std::string code = tree.getCode(byte); // Use HuffmanTree to get code
         for (char bit: code) {
             encodedBits.push_back(bit == '1');
         }
@@ -21,7 +20,7 @@ std::vector<uint8_t> HuffmanCodec::decode(const std::vector<bool> &encodedBits) 
     const HuffmanNode *current = tree.getRoot();
 
     for (bool bit: encodedBits) {
-        current = bit ? current->right.get() : current->left.get();
+        current = bit ? current->right : current->left;
 
         if (current->isLeaf()) {
             decodedMessage.push_back(current->data);
@@ -38,5 +37,4 @@ void HuffmanCodec::serializeTree(std::ostream &output) const {
 
 void HuffmanCodec::deserializeTree(std::istream &input) {
     tree.deserialize(input);
-    encodingMap = tree.getEncodingMap();
 }
