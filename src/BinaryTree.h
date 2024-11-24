@@ -15,10 +15,6 @@ public:
 
 private:
     Node *root;
-
-    //void serialize(std::vector<uint8_t> buffer);
-
-    //void deserialize(std::vector<uint8_t> buffer);
 };
 
 

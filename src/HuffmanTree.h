@@ -9,7 +9,7 @@
 
 struct NodeComparator {
     bool operator()(const HuffmanNode *lhs, const HuffmanNode *rhs) const {
-        return lhs->frequency > rhs->frequency; // Lower frequency gets higher priority
+        return lhs->frequency > rhs->frequency;
     }
 };
 
@@ -20,13 +20,13 @@ struct NodeComparator {
 
 class HuffmanTree {
 private:
-    HuffmanNode *root; // Root of the Huffman Tree
+    HuffmanNode *root;
 
 public:
     HuffmanTree() : root(nullptr) {}
 
     ~HuffmanTree() {
-        delete root; // Automatically deletes the entire tree
+        delete root; //delete entire tree
     }
 
     void buildTree(const std::unordered_map<uint8_t, size_t> &freqMap);
@@ -35,8 +35,7 @@ public:
 
     void deserialize(std::istream &input);
 
-    // Helper for debugging: prints the tree
-    void printTree() const { printTreeHelper(root, ""); }
+    void printTree() const { printTreeHelper(root, ""); } //for debugging purposes
 
     [[nodiscard]] HuffmanNode *getRoot() const;
 

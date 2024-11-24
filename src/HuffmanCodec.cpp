@@ -7,7 +7,7 @@ void HuffmanCodec::build(const std::unordered_map<uint8_t, size_t> &freqMap) {
 std::vector<bool> HuffmanCodec::encode(const std::vector<uint8_t> &message) const {
     std::vector<bool> encodedBits;
     for (uint8_t byte: message) {
-        std::string code = tree.getCode(byte); // Use HuffmanTree to get code
+        std::string code = tree.getCode(byte);
         for (char bit: code) {
             encodedBits.push_back(bit == '1');
         }

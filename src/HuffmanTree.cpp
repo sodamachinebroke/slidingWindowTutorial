@@ -13,12 +13,10 @@
 void HuffmanTree::buildTree(const std::unordered_map<uint8_t, size_t> &freqMap) {
     std::priority_queue<HuffmanNode *, std::vector<HuffmanNode *>, NodeComparator> pq;
 
-    // Create leaf nodes for each symbol and push into the priority queue
     for (const auto &[symbol, freq]: freqMap) {
         pq.push(new HuffmanNode(symbol, freq));
     }
 
-    // Build the tree
     while (pq.size() > 1) {
         HuffmanNode *left = pq.top();
         pq.pop();
@@ -27,7 +25,6 @@ void HuffmanTree::buildTree(const std::unordered_map<uint8_t, size_t> &freqMap) 
         pq.push(new HuffmanNode(left, right));
     }
 
-    // Set the root
     if (!pq.empty()) {
         root = pq.top();
         pq.pop();
@@ -38,11 +35,11 @@ void HuffmanTree::buildTree(const std::unordered_map<uint8_t, size_t> &freqMap) 
 void HuffmanTree::serialize(std::ostream &output) const {
     std::function<void(HuffmanNode *)> serializeHelper = [&](HuffmanNode *node) {
         if (!node) return;
-        if (!node->left && !node->right) { // Leaf node
-            output.put(0x01); // Marker for leaf
-            output.put(node->data); // Write the symbol
-        } else { // Internal node
-            output.put(0x00); // Marker for internal node
+        if (!node->left && !node->right) {
+            output.put(0x01);
+            output.put(node->data);
+        } else {
+            output.put(0x00);
             serializeHelper(node->left);
             serializeHelper(node->right);
         }
@@ -55,16 +52,16 @@ void HuffmanTree::deserialize(std::istream &input) {
         char marker = input.get();
         if (marker == 0x01) {
             uint8_t value = input.get();
-            return new HuffmanNode(value, 0); // Frequency is not used during deserialization
+            return new HuffmanNode(value, 0);
         } else if (marker == 0x00) {
             HuffmanNode *left = deserializeHelper();
             HuffmanNode *right = deserializeHelper();
             return new HuffmanNode(left, right);
         }
-        return nullptr; // Should not reach here
+        return nullptr;
     };
 
-    delete root; // Clean up the old tree
+    delete root;
     root = deserializeHelper();
 }
 
@@ -105,6 +102,5 @@ bool HuffmanTree::findCode(const HuffmanNode *node, uint8_t byte, std::string &p
 
     return false;
 }
-
 
 #pragma clang diagnostic pop
