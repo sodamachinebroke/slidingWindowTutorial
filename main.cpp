@@ -1,198 +1,77 @@
-#include "src/ReadFile.h"
-//BinaryTree tree;
-//ReadFile::readFromFile(256, "../public/input6.bin", tree);
 #include <iostream>
-#include <fstream>
-#include <vector>
-#include <unordered_map>
 #include <queue>
-#include <bitset>
-#include <memory>
-#include <stdexcept>
-#include <cstdint>
+#include <unordered_map>
+#include <vector>
+#include <string>
 
-struct HuffmanNode {
-    uint8_t value;
-    uint64_t frequency;
-    std::shared_ptr<HuffmanNode> left, right;
+// Struct to represent a symbol and its frequency
+struct SymbolNode {
+    char symbol;
+    size_t frequency;
+    std::string code;
 
-    // Constructor for internal nodes
-    explicit HuffmanNode(uint64_t freq, std::shared_ptr<HuffmanNode> l = nullptr,
-                         std::shared_ptr<HuffmanNode> r = nullptr)
-            : value(0), frequency(freq), left(std::move(l)), right(std::move(r)) {}
-
-    // Constructor for leaf nodes
-    HuffmanNode(uint8_t val, uint64_t freq) : value(val), frequency(freq) {}
-
-    // Compare nodes by frequency (priority queue)
-    bool operator>(const HuffmanNode &other) const {
+    // Compare by frequency for the priority queue (min-heap)
+    bool operator>(const SymbolNode &other) const {
         return frequency > other.frequency;
     }
 };
 
-// Recursive function to build the Huffman codes
-void buildHuffmanCodes(const std::shared_ptr<HuffmanNode> &node, const std::string &code,
-                       std::unordered_map<uint8_t, std::string> &huffmanCodes) {
-    if (!node->left && !node->right) {
-        huffmanCodes[node->value] = code; // Leaf node
-        return;
+// Generate Huffman codes without explicitly building a tree
+std::unordered_map<char, std::string> generateHuffmanCodes(const std::string &input) {
+    // Step 1: Build frequency table
+    std::unordered_map<char, size_t> frequencyTable;
+    for (char ch: input) {
+        frequencyTable[ch]++;
+        std::cout << ch << " " << frequencyTable[ch] << std::endl;
     }
 
-    if (node->left) buildHuffmanCodes(node->left, code + "0", huffmanCodes);
-    if (node->right) buildHuffmanCodes(node->right, code + "1", huffmanCodes);
-}
 
-// Serialize the Huffman tree into a file
-void serializeTree(const std::shared_ptr<HuffmanNode> &node, std::ostream &output) {
-    if (!node) return;
+    // Step 2: Priority queue (min-heap) of SymbolNode
+    std::priority_queue<SymbolNode, std::vector<SymbolNode>, std::greater<>> pq;
+    std::priority_queue<SymbolNode, std::vector<SymbolNode>, std::greater<>> pqo;
 
-    if (!node->left && !node->right) {
-        // Write marker '1' and the leaf symbol
-        char leafMarker = 0b1; // Binary marker for a leaf
-        output.put(leafMarker);
-        output.put(node->value); // Write symbol as-is
-    } else {
-        // Write marker '0' for internal node
-        char internalMarker = 0b0;
-        output.put(internalMarker);
-        serializeTree(node->left, output);
-        serializeTree(node->right, output);
-    }
-}
-
-
-// Deserialize the Huffman tree from a file
-std::shared_ptr<HuffmanNode> deserializeTree(std::istream &input) {
-    char marker;
-    if (!input.get(marker)) return nullptr;
-
-    if (marker & 0b1) {
-        // Leaf node: Read the value
-        char value;
-        input.get(value);
-        return std::make_shared<HuffmanNode>(value);
-    } else {
-        // Internal node
-        auto left = deserializeTree(input);
-        auto right = deserializeTree(input);
-        return std::make_shared<HuffmanNode>(0, left, right); // Internal nodes don't store values
-    }
-}
-
-
-// Huffman encode the input data
-void huffmanEncode(const std::string &inputFilename, const std::string &outputFilename) {
-    // Read the input file
-    std::ifstream inputFile(inputFilename, std::ios::binary);
-    if (!inputFile) {
-        throw std::runtime_error("Error opening input file.");
+    // Populate the priority queue with symbols and frequencies
+    for (const auto &[symbol, frequency]: frequencyTable) {
+        pq.push({symbol, frequency, ""});
     }
 
-    // Count byte frequencies
-    std::unordered_map<uint8_t, uint64_t> frequencies;
-    std::vector<uint8_t> data(std::istreambuf_iterator<char>(inputFile), {});
-    for (uint8_t byte: data) {
-        frequencies[byte]++;
-    }
-
-    // Build priority queue (min-heap) of Huffman nodes
-    auto cmp = [](const std::shared_ptr<HuffmanNode> &a, const std::shared_ptr<HuffmanNode> &b) { return *a > *b; };
-    std::priority_queue<std::shared_ptr<HuffmanNode>, std::vector<std::shared_ptr<HuffmanNode>>, decltype(cmp)> pq(cmp);
-
-    for (const auto &[byte, freq]: frequencies) {
-        pq.push(std::make_shared<HuffmanNode>(byte, freq));
-    }
-
-    // Build the Huffman tree
+    // Step 3: Generate codes by merging
     while (pq.size() > 1) {
-        auto left = pq.top();
+        // Get two lowest-frequency nodes
+        SymbolNode left = pq.top();
         pq.pop();
-        auto right = pq.top();
+        SymbolNode right = pq.top();
         pq.pop();
-        pq.push(std::make_shared<HuffmanNode>(left->frequency + right->frequency, left, right));
+
+        // Assign codes: '0' to the left, '1' to the right
+        left.code = "0" + left.code;  // Prefix with '0'
+        if (left.symbol != '\0')pqo.push(left);
+        right.code = "1" + right.code; // Prefix with '1'
+        if (right.symbol != '\0')pqo.push(right);
+
+        // Merge into a new node
+        SymbolNode combined = {'\0', left.frequency + right.frequency, ""};
+        pq.push(combined);
     }
 
-    auto root = pq.top();
-
-    // Generate Huffman codes
-    std::unordered_map<uint8_t, std::string> huffmanCodes;
-    buildHuffmanCodes(root, "", huffmanCodes);
-
-    // Serialize the Huffman tree and encoded data
-    std::ofstream outputFile(outputFilename, std::ios::binary);
-    if (!outputFile) {
-        throw std::runtime_error("Error opening output file.");
+    // Step 4: Extract final codes
+    std::unordered_map<char, std::string> codeMap;
+    while (!pqo.empty()) {
+        SymbolNode current = pqo.top();
+        pqo.pop();
+        codeMap[current.symbol] = current.code;
     }
 
-    serializeTree(root, outputFile);
-
-    // Write encoded data
-    std::string bitString;
-    for (uint8_t byte: data) {
-        bitString += huffmanCodes[byte];
-    }
-
-    // Pad bitString to a multiple of 8
-    while (bitString.size() % 8 != 0) {
-        bitString += '0';
-    }
-
-    for (size_t i = 0; i < bitString.size(); i += 8) {
-        uint8_t byte = std::bitset<8>(bitString.substr(i, 8)).to_ulong();
-        outputFile.put(byte);
-    }
-
-    outputFile.close();
-    std::cout << "File successfully Huffman-encoded: " << outputFilename << std::endl;
+    return codeMap;
 }
 
-// Huffman decode the input file
-void huffmanDecode(const std::string &inputFilename, const std::string &outputFilename) {
-    std::ifstream inputFile(inputFilename, std::ios::binary);
-    if (!inputFile) {
-        throw std::runtime_error("Error opening input file.");
-    }
-
-    // Deserialize the Huffman tree
-    auto root = deserializeTree(inputFile);
-
-    // Read encoded data
-    std::vector<uint8_t> encodedData(std::istreambuf_iterator<char>(inputFile), {});
-    std::string bitString;
-    for (uint8_t byte: encodedData) {
-        bitString += std::bitset<8>(byte).to_string();
-    }
-
-    // Decode the data
-    std::ofstream outputFile(outputFilename, std::ios::binary | std::ios::trunc);
-    if (!outputFile) {
-        throw std::runtime_error("Error opening output file.");
-    }
-
-    auto node = root;
-    for (char bit: bitString) {
-        node = (bit == '0') ? node->left : node->right;
-
-        if (!node->left && !node->right) {
-            outputFile.put(node->value);
-            node = root;
-        }
-    }
-
-    outputFile.close();
-    std::cout << "File successfully Huffman-decoded: " << outputFilename << std::endl;
-}
-
+// Main
 int main() {
-    const std::string inputFilename = "../public/input5.bin";
-    const std::string encodedFilename = "../public/temp/encoded.huff";
-    const std::string decodedFilename = "../public/output/decoded.bin";
+    std::string input = "AAAABBBCCD";
+    auto codes = generateHuffmanCodes(input);
 
-    try {
-        huffmanEncode(inputFilename, encodedFilename);
-        huffmanDecode(encodedFilename, decodedFilename);
-    } catch (const std::exception &ex) {
-        std::cerr << "Error: " << ex.what() << std::endl;
+    for (const auto &[symbol, code]: codes) {
+        std::cout << "Symbol: " << symbol << ", Code: " << code << '\n';
     }
 
     return 0;
