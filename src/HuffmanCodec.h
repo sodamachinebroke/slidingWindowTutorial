@@ -1,23 +1,41 @@
-#ifndef SLIDINGWINDOWTUTORIAL_HUFFMANCODEC_H
-#define SLIDINGWINDOWTUTORIAL_HUFFMANCODEC_H
+#ifndef HUFFMAN_CODEC_H
+#define HUFFMAN_CODEC_H
 
-#include "HuffmanTree.h"
+#include <iostream>
+#include <queue>
+#include <unordered_map>
 #include <vector>
+#include <fstream>
+#include <string>
+
+// Struct to represent a symbol and its frequency
+struct SymbolNode {
+    uint8_t symbol; // Symbol being encoded
+    size_t frequency; // Frequency of the symbol
+    std::string code; // Huffman code for the symbol
+
+    bool operator>(const SymbolNode &other) const {
+        return frequency > other.frequency; // Min-heap comparison
+    }
+};
 
 class HuffmanCodec {
 private:
-    HuffmanTree tree;
+    std::unordered_map<uint8_t, std::string> codeMap; // Huffman encoding table
+    std::unordered_map<std::string, uint8_t> reverseCodeMap; // Reverse table for decoding
 
 public:
-    void build(const std::unordered_map<uint8_t, size_t> &freqMap);
+    // Generate Huffman codes from input
+    void build(const std::string &input);
 
-    std::vector<bool> encode(const std::vector<uint8_t> &message) const;
+    // Encode a message and save as binary file
+    void encode(const std::string &input, const std::string &outputFile);
 
-    std::vector<uint8_t> decode(const std::vector<bool> &encodedBits) const;
+    // Decode a binary file
+    void decode(const std::string &inputFile, std::string &output);
 
-    void serializeTree(std::ostream &output) const;
-
-    void deserializeTree(std::istream &input);
+    // Utility to print codes
+    void printCodes() const;
 };
 
-#endif // SLIDINGWINDOWTUTORIAL_HUFFMANCODEC_H
+#endif // HUFFMAN_CODEC_H
