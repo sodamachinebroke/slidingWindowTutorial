@@ -3,20 +3,17 @@ project(slidingWindowTutorial)
 
 # Set the C++ standard to 23 (C++26 is experimental and may not be fully supported)
 set(CMAKE_CXX_STANDARD 23)
-set(CMAKE_EXE_LINKER_FLAGS "-Wl,--subsystem,console")
+set(CMAKE_EXE_LINKER_FLAGS)
 
 # Define the BinaryTree library target
 add_library(BinaryTree
         src/BinaryTree.cpp
         src/BinaryTree.h
-        src/Node.h
-        src/ReadFile.cpp
-        src/ReadFile.h
-        src/HuffmanNode.h
-        src/HuffmanTree.h
-        src/HuffmanTree.cpp
-        src/HuffmanCodec.h
+        #        src/Node.h
+        #        src/ReadFile.cpp
+        #        src/ReadFile.h
         src/HuffmanCodec.cpp
+        src/HuffmanCodec.h
 )
 
 # Create the main executable (slidingWindowTutorial) and link the BinaryTree library
