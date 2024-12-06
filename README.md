@@ -13,9 +13,10 @@ So far I have made a function that uses entropy coding with a dynamic dictionary
 
 ## Planned functions
 
-- Binary tree instead of a hashmap for storing the code
+- Binary trees are stupid, let's use hashmaps instead
 - File handling, byte compression
 - Compression using Inline Assembly, as it provides a much faster run time
+- Inline Assembly does not provide a faster runtime. G++ generates a much better machine code than i could ever do.
 
 
 Inline Assembly proved irrelevant, as g++ translates code into a much better machine code than I could ever write.
