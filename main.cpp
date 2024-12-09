@@ -134,7 +134,8 @@ string decode_file(struct MinHeapNode *root, string s) {
 
 // Driver code
 int main() {
-	string str = "geeksforgeeks";
+	//TODO understand this. HOW DOES THIS WORK????? It supposedly makes a Huffman Tree out of something, but aaaaaaaaaaaaaaaaa
+	string str = "AAAABBBCCD";
 	string encodedString, decodedString;
 	calcFreq(str, str.length());
 	HuffmanCodes(str.length());
