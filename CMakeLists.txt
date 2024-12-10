@@ -12,8 +12,8 @@ add_library(BinaryTree
         #        src/Node.h
         #        src/ReadFile.cpp
         #        src/ReadFile.h
-        src/HuffmanCodec.cpp
-        src/HuffmanCodec.h
+        #src/HuffmanCodec.cpp
+        #src/HuffmanCodec.h
 )
 
 # Create the main executable (slidingWindowTutorial) and link the BinaryTree library
