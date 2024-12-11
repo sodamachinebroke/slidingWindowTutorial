@@ -79,7 +79,7 @@ std::string decode_file(const struct MinHeapNode *root, const std::string &s) {
 
 int main() {
     //currently works on uint8_t, now just need to integrate file reading and writing
-    //TODO understand this. HOW DOES THIS WORK????? It supposedly makes a Huffman Tree out of something, but aaaaaaaaaaaaaaaaa
+    //TODO get Boost working for serialization
     std::vector<uint8_t> data = {65, 65, 65, 65, 66, 66, 66, 67, 67, 68};
     std::string encodedString;
 
