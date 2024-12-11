@@ -1,8 +1,5 @@
 #include <bits/stdc++.h>
 
-std::map<uint8_t, std::string> codes;
-std::map<uint8_t, int> freq;
-
 struct MinHeapNode {
     uint8_t data; // One of the input characters
     int freq; // Frequency of the character
@@ -20,6 +17,10 @@ struct compare {
         return (l->freq > r->freq);
     }
 };
+
+std::map<uint8_t, std::string> codes;
+std::map<uint8_t, int> freq;
+std::priority_queue<MinHeapNode *, std::vector<MinHeapNode *>, compare> minHeap;
 
 void printCodes(struct MinHeapNode *root, std::string str) {
     if (!root)
@@ -39,7 +40,6 @@ void storeCodes(struct MinHeapNode *root, std::string str) {
     storeCodes(root->right, str + "1");
 }
 
-std::priority_queue<MinHeapNode *, std::vector<MinHeapNode *>, compare> minHeap;
 
 void HuffmanCodes() {
     struct MinHeapNode *left, *right, *top;
@@ -103,4 +103,3 @@ int main() {//currently works on uint8_t, now just need to integrate file readin
     std::cout << std::endl;
     return 0;
 }
-
