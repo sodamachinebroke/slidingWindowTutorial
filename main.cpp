@@ -77,6 +77,7 @@ std::string decode_file(const struct MinHeapNode *root, const std::string &s) {
     return ans;
 }
 
+
 int main() {
     //currently works on uint8_t, now just need to integrate file reading and writing
     //TODO get Boost working for serialization
@@ -91,10 +92,60 @@ int main() {
     std::cout << std::endl << "Huffman Codes:" << std::endl;
 
     for (auto &v: codes) std::cout << static_cast<int>(v.first) << ": " << v.second << std::endl;
+    encodedString += std::to_string(codes.size());
+    for (std::pair<uint8_t, std::string> byte: codes) {
+        encodedString += static_cast<char>(byte.first) + byte.second;
+    }
+
     for (uint8_t byte: data)
         encodedString += codes[byte];
 
     std::cout << std::endl << "Encoded Huffman data:" << std::endl << encodedString << std::endl;
+
+    std::cout << "Writing encoded data to a file..." << std::endl;
+    std::ofstream output;
+    output.open("../public/output/out.bin", std::ios::out | std::ios::binary);
+
+    uint8_t codeSize = codes.size();
+    output.write(reinterpret_cast<const char *>(&codeSize), sizeof(codeSize));
+
+    for (const auto &[character, code]: codes) {
+        output.put(character);
+        uint8_t codeLength = code.size();
+        output.put(codeLength);
+        uint8_t currentByte = 0;
+        int bitCount = 0;
+        for (char bit: code) {
+            currentByte = (currentByte << 1) | (bit == '1');
+            bitCount++;
+            if (bitCount == 8) {
+                output.put(currentByte);
+                currentByte = 0;
+                bitCount = 0;
+            }
+        }
+        if (bitCount > 0) {
+            currentByte <<= (8 - bitCount);
+        }
+    }
+
+    uint8_t currentByte = 0;
+    int bitCount = 0;
+    for (char bit: encodedString) {
+        currentByte = (currentByte << 1) | (bit == '1');
+        bitCount++;
+        if (bitCount == 8) {
+            output.put(currentByte);
+            currentByte = 0;
+            bitCount = 0;
+        }
+    }
+    if (bitCount > 0) {
+        currentByte <<= (8 - bitCount);
+        output.put(currentByte);
+    }
+
+    output.close();
 
     // Function call
     std::string decodedString = decode_file(minHeap.top(), encodedString);
