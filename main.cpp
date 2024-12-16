@@ -77,10 +77,55 @@ std::string decode_file(const struct MinHeapNode *root, const std::string &s) {
     return ans;
 }
 
+void writeBits(std::ofstream &output, const std::string &bits, uint8_t currentByte, int &bitCount) {
+    for (char bit: bits) {
+        currentByte = (currentByte << 1) | (bit == '1');
+        bitCount++;
+        if (bitCount == 8) {
+            output.put(currentByte);
+            currentByte = 0;
+            bitCount = 0;
+        }
+    }
+}
+
+void flushBits(std::ofstream &output, uint8_t currentByte, int &bitCount) {
+    if (bitCount > 0) {
+        currentByte <<= (8 - bitCount);
+        output.put(currentByte);
+        currentByte = 0;
+        bitCount = 0;
+    }
+}
+
+void writeHuffmanTable(std::ofstream &output) {
+    uint8_t codeSize = codes.size();
+    output.write(reinterpret_cast<const char *>(&codeSize), sizeof(codeSize));
+
+    uint8_t currentByte = 0;
+    int bitCount = 0;
+
+    for (const auto &[character, code]: codes) {
+        output.put(character);
+        uint8_t codeLength = code.size();
+        std::cout << code << " size:  " << code.size() << std::endl;
+        output.put(codeLength);
+        writeBits(output, code, currentByte, bitCount);
+    }
+    flushBits(output, currentByte, bitCount);
+}
+
+void writeEncodedData(std::ofstream &output, const std::string &encodedString) {
+    uint8_t currentByte = 0;
+    int bitCount = 0;
+
+    writeBits(output, encodedString, currentByte, bitCount);
+    //flushBits(output, currentByte, bitCount);
+}
+
 
 int main() {
-    //currently works on uint8_t, now just need to integrate file reading and writing
-    //TODO get Boost working for serialization
+    //TODO discover bitset and utilize it
     std::vector<uint8_t> data = {65, 65, 65, 65, 66, 66, 66, 67, 67, 68};
     std::string encodedString;
 
@@ -106,44 +151,8 @@ int main() {
     std::ofstream output;
     output.open("../public/output/out.bin", std::ios::out | std::ios::binary);
 
-    uint8_t codeSize = codes.size();
-    output.write(reinterpret_cast<const char *>(&codeSize), sizeof(codeSize));
-
-    for (const auto &[character, code]: codes) {
-        output.put(character);
-        uint8_t codeLength = code.size();
-        output.put(codeLength);
-        uint8_t currentByte = 0;
-        int bitCount = 0;
-        for (char bit: code) {
-            currentByte = (currentByte << 1) | (bit == '1');
-            bitCount++;
-            if (bitCount == 8) {
-                output.put(currentByte);
-                currentByte = 0;
-                bitCount = 0;
-            }
-        }
-        if (bitCount > 0) {
-            currentByte <<= (8 - bitCount);
-        }
-    }
-
-    uint8_t currentByte = 0;
-    int bitCount = 0;
-    for (char bit: encodedString) {
-        currentByte = (currentByte << 1) | (bit == '1');
-        bitCount++;
-        if (bitCount == 8) {
-            output.put(currentByte);
-            currentByte = 0;
-            bitCount = 0;
-        }
-    }
-    if (bitCount > 0) {
-        currentByte <<= (8 - bitCount);
-        output.put(currentByte);
-    }
+    writeHuffmanTable(output);
+    writeEncodedData(output, encodedString);
 
     output.close();
 
