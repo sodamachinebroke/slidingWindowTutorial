@@ -108,7 +108,6 @@ void writeHuffmanTable(std::ofstream &output) {
     for (const auto &[character, code]: codes) {
         output.put(character);
         uint8_t codeLength = code.size();
-        std::cout << code << " size:  " << code.size() << std::endl;
         output.put(codeLength);
         writeBits(output, code, currentByte, bitCount);
     }
@@ -121,6 +120,35 @@ void writeEncodedData(std::ofstream &output, const std::string &encodedString) {
 
     writeBits(output, encodedString, currentByte, bitCount);
     //flushBits(output, currentByte, bitCount);
+}
+
+//This is potentially faulty
+void writeBitStringToFile(const std::string &bitString, const std::string &filePath) {
+    std::ofstream output(filePath, std::ios::binary); // Open file in binary mode
+
+    if (!output) {
+        std::cerr << "Error opening file for writing." << std::endl;
+        return;
+    }
+
+    // Buffer to hold the converted bytes
+    std::vector<uint8_t> byteBuffer;
+
+    // Process the bit string in chunks of 8 bits
+    for (size_t i = 0; i < bitString.size(); i += 8) {
+        std::string byteString = bitString.substr(i, 8); // Take 8 bits
+        while (byteString.size() < 8) byteString += '0'; // Pad with zeros if needed
+
+        // Convert the 8-bit string into a byte
+        uint8_t byte = static_cast<uint8_t>(std::bitset<8>(byteString).to_ulong());
+        byteBuffer.push_back(byte);
+    }
+
+    // Write the byte buffer to the file
+    output.write(reinterpret_cast<const char *>(byteBuffer.data()), byteBuffer.size());
+
+    output.close();
+    std::cout << "Bit string successfully written to " << filePath << std::endl;
 }
 
 
@@ -137,9 +165,10 @@ int main() {
     std::cout << std::endl << "Huffman Codes:" << std::endl;
 
     for (auto &v: codes) std::cout << static_cast<int>(v.first) << ": " << v.second << std::endl;
-    encodedString += std::to_string(codes.size());
+    encodedString += std::bitset<8>{codes.size()}.to_string();
+
     for (std::pair<uint8_t, std::string> byte: codes) {
-        encodedString += static_cast<char>(byte.first) + byte.second;
+        encodedString += std::bitset<8>{byte.first}.to_string() + byte.second;
     }
 
     for (uint8_t byte: data)
@@ -148,13 +177,8 @@ int main() {
     std::cout << std::endl << "Encoded Huffman data:" << std::endl << encodedString << std::endl;
 
     std::cout << "Writing encoded data to a file..." << std::endl;
-    std::ofstream output;
-    output.open("../public/output/out.bin", std::ios::out | std::ios::binary);
+    writeBitStringToFile(encodedString, "../public/output/out.bin");
 
-    writeHuffmanTable(output);
-    writeEncodedData(output, encodedString);
-
-    output.close();
 
     // Function call
     std::string decodedString = decode_file(minHeap.top(), encodedString);
