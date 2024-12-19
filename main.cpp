@@ -22,6 +22,22 @@ std::map<uint8_t, std::string> codes;
 std::map<uint8_t, int> freq;
 std::priority_queue<MinHeapNode *, std::vector<MinHeapNode *>, compare> minHeap;
 
+std::vector<uint8_t> readFromFile(const char *fileName) {
+    std::ifstream file(fileName, std::ios::binary);
+    file.unsetf(std::ios::skipws);
+
+    file.seekg(0, std::ios::end);
+    std::streampos fileSize = file.tellg();
+    file.seekg(0, std::ios::beg);
+
+    std::vector<uint8_t> data;
+    data.reserve(fileSize);
+
+    data.insert(data.begin(), std::istreambuf_iterator<char>(file), std::istreambuf_iterator<char>());
+
+    return data;
+}
+
 void printCodes(const struct MinHeapNode *root, const std::string &str) {
     if (!root)
         return;
@@ -126,18 +142,15 @@ void writeEncodedData(std::ofstream &output, const std::string &encodedString) {
 void writeBitStringToFile(const std::string &bitString, const std::string &filePath) {
     std::ofstream output(filePath, std::ios::binary); // Open file in binary mode
 
-    if (!output) {
-        std::cerr << "Error opening file for writing." << std::endl;
-        return;
-    }
+    if (!output) { return; }
 
-    // Buffer to hold the converted bytes
+
     std::vector<uint8_t> byteBuffer;
 
     // Process the bit string in chunks of 8 bits
     for (size_t i = 0; i < bitString.size(); i += 8) {
         std::string byteString = bitString.substr(i, 8); // Take 8 bits
-        while (byteString.size() < 8) byteString += '0'; // Pad with zeros if needed
+        //while (byteString.size() < 8) byteString += '0'; // Pad with zeros if needed
 
         // Convert the 8-bit string into a byte
         uint8_t byte = static_cast<uint8_t>(std::bitset<8>(byteString).to_ulong());
@@ -154,17 +167,19 @@ void writeBitStringToFile(const std::string &bitString, const std::string &fileP
 
 int main() {
     //TODO discover bitset and utilize it
-    std::vector<uint8_t> data = {65, 65, 65, 65, 66, 66, 66, 67, 67, 68};
+    //std::vector<uint8_t> data = {65, 65, 65, 65, 66, 66, 66, 67, 67, 68};
     std::string encodedString;
+
+    std::vector<uint8_t> data = readFromFile("../public/input7.bin");
 
     calcFreq(data);
     HuffmanCodes();
-    std::cout << "Character With there Frequencies:\n";
-    for (auto &v: freq) std::cout << static_cast<int>(v.first) << ": " << v.second << std::endl;
+    // std::cout << "Character With there Frequencies:\n";
+    // for (auto &v: freq) std::cout << static_cast<int>(v.first) << ": " << v.second << std::endl;
 
-    std::cout << std::endl << "Huffman Codes:" << std::endl;
-
-    for (auto &v: codes) std::cout << static_cast<int>(v.first) << ": " << v.second << std::endl;
+    // std::cout << std::endl << "Huffman Codes:" << std::endl;
+    //
+    // for (auto &v: codes) std::cout << static_cast<int>(v.first) << ": " << v.second << std::endl;
     encodedString += std::bitset<8>{codes.size()}.to_string();
 
     for (std::pair<uint8_t, std::string> byte: codes) {
@@ -174,17 +189,17 @@ int main() {
     for (uint8_t byte: data)
         encodedString += codes[byte];
 
-    std::cout << std::endl << "Encoded Huffman data:" << std::endl << encodedString << std::endl;
+    //std::cout << std::endl << "Encoded Huffman data:" << std::endl << encodedString << std::endl;
 
     std::cout << "Writing encoded data to a file..." << std::endl;
     writeBitStringToFile(encodedString, "../public/output/out.bin");
-
-
-    // Function call
-    std::string decodedString = decode_file(minHeap.top(), encodedString);
-    std::cout << "\nDecoded Huffman Data:\n" << decodedString << std::endl;
-
-    for (char byte: decodedString) std::cout << static_cast<int>(static_cast<uint8_t>(byte)) << ' ';
-    std::cout << std::endl;
+    //
+    //
+    // // Function call
+    // std::string decodedString = decode_file(minHeap.top(), encodedString);
+    // std::cout << "\nDecoded Huffman Data:\n" << decodedString << std::endl;
+    //
+    // for (char byte: decodedString) std::cout << static_cast<int>(static_cast<uint8_t>(byte)) << ' ';
+    // std::cout << std::endl;
     return 0;
 }
