@@ -164,17 +164,24 @@ void writeBitStringToFile(const std::string &bitString, const std::string &fileP
     std::cout << "Bit string successfully written to " << filePath << std::endl;
 }
 
+uint8_t readCompressed(const char *fileName) {
+    std::ifstream file(fileName, std::ios::binary);
+    uint8_t data;
+    if (!file) return 0xFF;
+    file.read(reinterpret_cast<char *>(&data), 1);
+    return data;
+}
 
 int main() {
     //TODO discover bitset and utilize it
     //std::vector<uint8_t> data = {65, 65, 65, 65, 66, 66, 66, 67, 67, 68};
     std::string encodedString;
 
-    std::vector<uint8_t> data = readFromFile("../public/input7.bin");
+    std::vector<uint8_t> data = readFromFile("../public/input.bin");
 
     calcFreq(data);
     HuffmanCodes();
-    // std::cout << "Character With there Frequencies:\n";
+    // std::cout << "Character With their frequencies:\n";
     // for (auto &v: freq) std::cout << static_cast<int>(v.first) << ": " << v.second << std::endl;
 
     // std::cout << std::endl << "Huffman Codes:" << std::endl;
@@ -193,6 +200,9 @@ int main() {
 
     std::cout << "Writing encoded data to a file..." << std::endl;
     writeBitStringToFile(encodedString, "../public/output/out.bin");
+
+    const uint8_t length = readCompressed("../public/output/out.bin");
+    std::cout << "First byte is: " << static_cast<int>(length) << std::endl;
     //
     //
     // // Function call
