@@ -150,7 +150,6 @@ void writeBitStringToFile(const std::string &bitString, const std::string &fileP
     // Process the bit string in chunks of 8 bits
     for (size_t i = 0; i < bitString.size(); i += 8) {
         std::string byteString = bitString.substr(i, 8); // Take 8 bits
-        //while (byteString.size() < 8) byteString += '0'; // Pad with zeros if needed
 
         // Convert the 8-bit string into a byte
         uint8_t byte = static_cast<uint8_t>(std::bitset<8>(byteString).to_ulong());
@@ -166,27 +165,25 @@ void writeBitStringToFile(const std::string &bitString, const std::string &fileP
 
 uint8_t readCompressed(const char *fileName) {
     std::ifstream file(fileName, std::ios::binary);
-    uint8_t data;
+    uint8_t mapLength;
     if (!file) return 0xFF;
-    file.read(reinterpret_cast<char *>(&data), 1);
-    return data;
+    file.read(reinterpret_cast<char *>(&mapLength), 1);
+    return mapLength;
 }
 
 int main() {
-    //TODO discover bitset and utilize it
-    //std::vector<uint8_t> data = {65, 65, 65, 65, 66, 66, 66, 67, 67, 68};
+    std::vector<uint8_t> data = readFromFile("../public/input2.bin");
     std::string encodedString;
-
-    std::vector<uint8_t> data = readFromFile("../public/input.bin");
 
     calcFreq(data);
     HuffmanCodes();
-    // std::cout << "Character With their frequencies:\n";
-    // for (auto &v: freq) std::cout << static_cast<int>(v.first) << ": " << v.second << std::endl;
+     std::cout << "Character With their frequencies:\n";
+     for (auto &v: freq) std::cout << static_cast<int>(v.first) << ": " << v.second << std::endl;
 
-    // std::cout << std::endl << "Huffman Codes:" << std::endl;
-    //
-    // for (auto &v: codes) std::cout << static_cast<int>(v.first) << ": " << v.second << std::endl;
+     std::cout << std::endl << "Huffman Codes:" << std::endl;
+
+    //This is where you glue the size of the map to the encoded string. Need to change this
+     for (auto &v: codes) std::cout << static_cast<int>(v.first) << ": " << v.second << std::endl;
     encodedString += std::bitset<8>{codes.size()}.to_string();
 
     for (std::pair<uint8_t, std::string> byte: codes) {
