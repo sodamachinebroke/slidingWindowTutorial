@@ -172,34 +172,97 @@ uint8_t readCompressed(const char *fileName) {
 }
 
 int main() {
-    std::vector<uint8_t> data = readFromFile("../public/input2.bin");
+    std::vector<uint8_t> data = readFromFile("../public/input.bin");
     std::string encodedString;
 
     calcFreq(data);
     HuffmanCodes();
-     std::cout << "Character With their frequencies:\n";
-     for (auto &v: freq) std::cout << static_cast<int>(v.first) << ": " << v.second << std::endl;
+    std::cout << "Character With their frequencies:\n";
+    for (auto &v: freq) std::cout << static_cast<int>(v.first) << ": " << v.second << std::endl;
 
-     std::cout << std::endl << "Huffman Codes:" << std::endl;
+    std::cout << std::endl << "Huffman Codes:" << std::endl;
 
-    //This is where you glue the size of the map to the encoded string. Need to change this
-     for (auto &v: codes) std::cout << static_cast<int>(v.first) << ": " << v.second << std::endl;
-    encodedString += std::bitset<8>{codes.size()}.to_string();
-
-    for (std::pair<uint8_t, std::string> byte: codes) {
-        encodedString += std::bitset<8>{byte.first}.to_string() + byte.second;
+    // create the invertedMap
+    std::vector<std::pair<std::string, uint8_t> > invertedMap;
+    for (const auto &[key,value]: codes) {
+        invertedMap.emplace_back(value, key);
     }
 
-    for (uint8_t byte: data)
+    //sort invertedMap by code length
+    std::ranges::sort(invertedMap, [](const auto &a, const auto &b) {
+        return a.first.length() < b.first.length();
+    });
+
+    //-- HEADER START --
+    std::string headerString;
+
+    //Count code lengths and build the length-counts map
+    std::map<size_t, size_t> length_counts;
+    for (const auto &[value, key]: invertedMap) {
+        length_counts[value.length()]++;
+    }
+
+    //Write the header information to the header string
+    for (const auto &[length, count]: length_counts) {
+        //encode count
+        headerString += std::bitset<8>(count).to_string();
+        //encode length
+        headerString += std::bitset<8>(length).to_string();
+
+        //add code and byte value
+        for (const auto &[code, byte]: invertedMap) {
+            if (code.length() == length) {
+                headerString += std::bitset<8>(byte).to_string();
+                headerString += code;
+            }
+        }
+    }
+    // -- HEADER END --
+
+    //Compress data
+    for (uint8_t byte: data) {
         encodedString += codes[byte];
+    }
+
+    std::string completeBitString = headerString + encodedString;
+
+    //invertedMap contents
+    std::cout << "invertedMap contents: " << std::endl;
+    for (const auto &[value,key]: invertedMap) {
+        std::cout << value << " " << static_cast<int>(key) << std::endl;
+    }
+
+    std::cout << "Writing encoded data to file: " << std::endl;
+    writeBitStringToFile(completeBitString, "../public/output/input.bin.comp");
+
+    /*for (auto &v: codes) std::cout << static_cast<int>(v.first) << ": " << v.second << std::endl;
+    encodedString += std::bitset<8>{codes.size()}.to_string();
+
+    //for (std::pair<uint8_t, std::string> byte: codes) {
+    //    encodedString += std::bitset<8>{byte.first}.to_string() + byte.second;
+    //}
+
+    for (const auto &[value, key]: invertedMap) {
+        //count the vector and organize by length
+        length_counts[value.length()]++;
+    }
+
+    for (const auto &[value, key]: invertedMap) {
+        //output the vector onto the console
+        std::cout << "{" << value << ", " << static_cast<int>(key) << "}" << std::endl;
+    }*/
+
+    /*for (uint8_t byte: data) //supposedly this is for filling the string with the data, so this is the content
+        encodedString += codes[byte];
+
 
     //std::cout << std::endl << "Encoded Huffman data:" << std::endl << encodedString << std::endl;
 
     std::cout << "Writing encoded data to a file..." << std::endl;
-    writeBitStringToFile(encodedString, "../public/output/out.bin");
+    writeBitStringToFile(encodedString, "../public/output/input.bin.comp");
 
-    const uint8_t length = readCompressed("../public/output/out.bin");
-    std::cout << "First byte is: " << static_cast<int>(length) << std::endl;
+    const uint8_t length = readCompressed("../public/output/input.bin.comp");
+    std::cout << "First byte is: " << static_cast<int>(length) << std::endl;*/
     //
     //
     // // Function call
