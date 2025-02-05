@@ -1,0 +1,7 @@
+input2.bin filter=lfs diff=lfs merge=lfs -text
+input3.bin filter=lfs diff=lfs merge=lfs -text
+input4.bin filter=lfs diff=lfs merge=lfs -text
+input5.bin filter=lfs diff=lfs merge=lfs -text
+input6.bin filter=lfs diff=lfs merge=lfs -text
+input7.bin filter=lfs diff=lfs merge=lfs -text
+input.bin filter=lfs diff=lfs merge=lfs -text
